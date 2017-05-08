@@ -10,6 +10,5 @@
 
 
 ### TODO
-- add .gitignore file
 - rename 'myapp' to... ?
 - stop using sqlite on production
