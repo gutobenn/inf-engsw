@@ -104,3 +104,8 @@ STATIC_URL = '/static/'
 
 
 LOGIN_REDIRECT_URL = 'index'
+
+# These are default settings, code and locales refer to ones used in babel library
+CURRENCY_CODE = 'BRL'
+CURRENCY_LOCALE = 'pt_BR'
+CURRENCY_DECIMAL_PLACES = 2
