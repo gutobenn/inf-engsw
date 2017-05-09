@@ -9,6 +9,7 @@
         <p><img src="http://placehold.it/350x150"></p>
         <p>{{ item.description }}</p>
         <h4>R${{ item.price }} por mês</h4>
+        <p><a href="{% url 'item_edit' pk=item.pk %}">Editar</a></p>
       </div>
     {% endfor %}
   </div>

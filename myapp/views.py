@@ -29,7 +29,26 @@ def item_new(request):
             return redirect('items') #'post_detail', pk=post.pk)
     else:
         form = ItemForm()
-    return render(request, 'myapp/item_new.html', {'form': form})
+    return render(request, 'myapp/item_edit.html', {'form': form})
+
+@login_required(login_url='login')
+def item_edit(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+
+    if request.user != item.owner:
+        return redirect('index')
+
+    if request.method == "POST":
+        form = ItemForm(request.POST, instance=item)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.owner = request.user
+            item.published_date = timezone.now()
+            item.save()
+            return redirect('item_detail', pk=item.pk)
+    else:
+        form = ItemForm(instance=item)
+    return render(request, 'myapp/item_edit.html', {'form': form})
 
 def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
