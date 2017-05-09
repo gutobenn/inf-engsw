@@ -6,15 +6,16 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from myapp.forms import SignUpForm, ItemForm
 from myapp.models import Item
+from .filters import ItemFilter
 
 
 def index(request):
     items = Item.objects.filter(published_date__lte=timezone.now()).order_by('published_date') # TODO limitar numero de itens que aparece na pagina inicial
     return render(request, 'myapp/index.html', {'items': items})
 
+# TODO rename this method? 'items' is generic... it could be someone like 'my items'
 @login_required(login_url='login')
 def items(request):
-    #items = Item.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     items = Item.objects.filter(owner=request.user).order_by('published_date')
     return render(request, 'myapp/items.html', {'items': items})
 
@@ -54,6 +55,11 @@ def item_edit(request, pk):
 def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
     return render(request, 'myapp/item_detail.html', {'item': item})
+
+def search(request):
+    item_list = Item.objects.all()
+    item_filter = ItemFilter(request.GET, queryset=item_list)
+    return render(request, 'myapp/search.html', {'filter': item_filter})
 
 def signup(request):
     if request.method == 'POST':
