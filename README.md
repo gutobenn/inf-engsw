@@ -10,5 +10,4 @@
 
 
 ### TODO
-- rename 'myapp' to... ?
-- stop using sqlite on production
+[Trello](https://trello.com/b/RJKRXsxR/engsw)
