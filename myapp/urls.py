@@ -7,6 +7,8 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^items/$', views.items, name='items'),
+    url(r'^items/new/$', views.item_new, name='item_new'),
+    url(r'^items/(?P<pk>[0-9]+)/$', views.item_detail),
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'index'}, name='logout'),

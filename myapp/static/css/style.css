@@ -26,6 +26,33 @@
   margin-bottom: 20px;
 }
 
+.item-detail {
+  margin-top: 20px;
+}
+
+.item-detail #leftcolx h1 {
+  margin-bottom: 15px;
+}
+
+.item-detail #rightcolx {
+  margin-top: 70px;
+}
+
+.item-detail #rightcolx h2 {
+  display: inline;
+  margin-right: 7px;
+}
+
+.item-detail #item-detail-description {
+  margin-top: 35px;
+  margin-bottom: 40px;
+}
+
+.item-detail #item-detail-owner {
+  background: #e8e8e8;
+  padding: 8px 10px;
+}
+
 @media (min-width: 992px) {
   .jumbotron #boxdbusca {
     margin-top: 60px;

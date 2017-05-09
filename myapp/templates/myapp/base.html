@@ -25,7 +25,8 @@
               <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                   {% if user.is_authenticated %}
-                    <li><a href="{% url 'items' %}">Itens</a></li>
+                    <li><a href="{% url 'item_new' %}">Cadastrar Item</a></li>
+                    <li><a href="{% url 'items' %}">Meus Itens</a></li>
                     <li><a href="#">Meus Alugueis</a></li>
                     <li><a href="{% url 'logout' %}">Sair</a></li>
                   {% else %}

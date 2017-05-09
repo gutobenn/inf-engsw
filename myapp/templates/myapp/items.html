@@ -1,12 +1,17 @@
 {% extends 'myapp/base.html' %}
 {% block content %}
 <div class="container">
-  <!-- Example row of columns -->
+  <h2>Meus Itens</h2>
   <div class="row">
-    <div class="col-md-12">
-      <h2>list of items here</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-    </div>
+    {% for item in items %}
+      <div class="col-sm-4 item">
+        <h4><a href="{% url 'myapp.views.item_detail' pk=item.pk %}">{{ item.title }}</a></h4>
+        <p><img src="http://placehold.it/350x150"></p>
+        <p>{{ item.description }}</p>
+        <h4>R${{ item.price }} por mês</h4>
+      </div>
+    {% endfor %}
+  </div>
+
 </div> <!-- /container -->
 {% endblock %}
