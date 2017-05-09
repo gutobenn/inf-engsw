@@ -23,12 +23,15 @@
 <div class="container">
   <div class="row items-list">
     {% for item in items %}
-      <div class="col-sm-4 item">
-        <h4><a href="{% url 'myapp.views.item_detail' pk=item.pk %}">{{ item.title }}</a></h4>
-        <p><img src="http://placehold.it/350x150"></p>
-        <p>{{ item.description }}</p>
-        <p>R${{ item.price }} por mês</p>
-        <p>Publicado em {{ item.published_date }}</p>
+
+      <div class="col-sm-3 item">
+        <div class="thumbnail">
+          <img src="http://placehold.it/350x250">
+          <div class="caption">
+            <h4><a href="{% url 'myapp.views.item_detail' pk=item.pk %}">{{ item.title }}</a> R${{ item.price }}</h4>
+            <p>{{ item.description|linebreaksbr|truncatechars:200 }}</p>
+          </div>
+        </div>
       </div>
     {% endfor %}
   </div>
