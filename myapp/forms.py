@@ -4,10 +4,12 @@ from django.contrib.auth.models import User
 
 
 class SignUpForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+    first_name = forms.CharField(max_length=30, help_text='Obrigatorio.')
+    last_name = forms.CharField(max_length=30, help_text='Obrigatorio.')
+    email = forms.EmailField(max_length=254, help_text='Obrigatorio. Informe um endereco de email valido.')
+    phone_number = forms.RegexField(max_length=11, regex=r'^\d{10,11}$',
+                                error_message = ("Numero de telefone precisa estar no formato: 'DDD999999999'. Ate 11 digitos."))
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )
+        fields = ('username', 'first_name', 'last_name', 'phone_number', 'email', 'password1', 'password2', )
