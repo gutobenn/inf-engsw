@@ -1,3 +1,33 @@
-h1 a {
-    color: #FCA205;
+.navbar-inverse {
+  background: #222222;
+  margin-bottom: 0;
+}
+
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav > li > a {
+  color: #fff;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+  background: #090909;
+}
+
+.jumbotron p {
+  font-size: 17px;
+}
+
+.jumbotron h2 {
+  font-size: 27px;
+  margin-bottom: 15px;
+}
+
+.items-list .item {
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 992px) {
+  .jumbotron #boxdbusca {
+    margin-top: 60px;
+  }
 }

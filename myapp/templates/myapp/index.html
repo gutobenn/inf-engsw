@@ -1,23 +1,57 @@
-{% load staticfiles %}
-<html>
-    <head>
-        <title>myapp</title>
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    </head>
-    <body>
-        <div>
-            <h1><a href="/">myapp</a></h1>
-        </div>
+{% extends 'myapp/basic_template.html' %}
+{% block 'container' %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <h2>Agora ficou fácil encontrar qualquer material!</h2>
+        <p>Descubra quais colegas têm o que você precisa para esse semestre e ganhe dinheiro alugando o que está parado em casa.</p>
+      </div>
+      <div class="col-lg-5 pull-right" id="boxdbusca">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Eu quero...">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">Procurar!</button>
+          </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+  </div>
+</div>
 
-	Olá
- 
-    </body>
-</html>
-
-
+<div class="container">
+  <div class="row items-list">
+    <div class="col-sm-4 item">
+      <h4><a href="#">Calculadora HP</a></h4>
+      <p><img src="http://placehold.it/350x150"></p>
+      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+    </div>
+    <div class="col-sm-4 item">
+      <h4><a href="#">Voltímetro</a></h4>
+      <p><img src="http://placehold.it/350x150"></p>
+      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+    </div>
+    <div class="col-sm-4 item">
+      <h4><a href="#">Livro de Cálculo</a></h4>
+      <p><img src="http://placehold.it/350x150"></p>
+      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+    </div>
+    <div class="col-sm-4 item">
+      <h4><a href="#">Calculadora HP</a></h4>
+      <p><img src="http://placehold.it/350x150"></p>
+      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+    </div>
+    <div class="col-sm-4 item">
+      <h4><a href="#">Voltímetro</a></h4>
+      <p><img src="http://placehold.it/350x150"></p>
+      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+    </div>
+    <div class="col-sm-4 item">
+      <h4><a href="#">Livro de Cálculo</a></h4>
+      <p><img src="http://placehold.it/350x150"></p>
+      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+    </div>
+  </div>
+</div> <!-- /container -->
+{% endblock %}
