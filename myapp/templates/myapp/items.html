@@ -4,16 +4,7 @@
   <h2>Meus Itens</h2>
   <div class="row">
     {% for item in items %}
-      <div class="col-sm-3 item">
-        <div class="thumbnail">
-          <img src="{{ item.image.url }}">
-          <div class="caption">
-            <h4><a href="{% url 'myapp.views.item_detail' pk=item.pk %}">{{ item.title }}</a> R${{ item.price }}</h4>
-            <p>{{ item.description|linebreaksbr|truncatechars:200 }}</p>
-            <p><br><a href="{% url 'item_edit' pk=item.pk %}">Editar</a></p>
-          </div>
-        </div>
-      </div>
+      {% include 'myapp/_display_item.html' %}
     {% endfor %}
   </div>
 

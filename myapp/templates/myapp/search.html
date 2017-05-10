@@ -12,15 +12,7 @@
 
     <div class="row items-list">
       {% for item in object_list %}
-        <div class="col-sm-3 item">
-          <div class="thumbnail">
-            <img src="{{ item.image.url }}">
-            <div class="caption">
-              <h4><a href="{% url 'myapp.views.item_detail' pk=item.pk %}">{{ item.title }}</a> R${{ item.price }}</h4>
-              <p>{{ item.description|linebreaksbr|truncatechars:200 }}</p>
-            </div>
-          </div>
-        </div>
+        {% include 'myapp/_display_item.html' %}
       {% endfor %}
     </div>
 

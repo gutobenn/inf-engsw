@@ -1,0 +1,9 @@
+<div class="col-sm-3 item">
+  <div class="thumbnail">
+    <a href="{% url 'myapp.views.item_detail' pk=item.pk %}"><img src="{{ item.image.url }}"></a>
+    <div class="caption">
+      <h4><a href="{% url 'myapp.views.item_detail' pk=item.pk %}">{{ item.title }}</a> R${{ item.price }}</h4>
+      <p>{{ item.description|linebreaksbr|truncatechars:200 }}</p>
+    </div>
+  </div>
+</div>
