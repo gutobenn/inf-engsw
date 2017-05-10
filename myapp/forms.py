@@ -20,7 +20,7 @@ class ItemForm(forms.ModelForm):
 
     class Meta:
         model = Item
-        fields = ('title', 'description', 'price')
+        fields = ('title', 'description', 'price', 'image')
 
 class SearchItemForm(forms.Form):
     search_text = forms.CharField(

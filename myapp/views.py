@@ -23,7 +23,7 @@ def items(request):
 @login_required(login_url='login')
 def item_new(request):
     if request.method == "POST":
-        form = ItemForm(request.POST)
+        form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
             item = form.save(commit=False)
             item.owner = request.user
@@ -42,7 +42,7 @@ def item_edit(request, pk):
         return redirect('index')
 
     if request.method == "POST":
-        form = ItemForm(request.POST, instance=item)
+        form = ItemForm(request.POST, request.FILES, instance=item)
         if form.is_valid():
             item = form.save(commit=False)
             item.owner = request.user

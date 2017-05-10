@@ -6,7 +6,7 @@
 ### Running server
 ```python manage.py runserver```
 
-[Access](http://127.0.0.1:8000/myapp)
+[Access](http://127.0.0.1:8000)
 
 
 ### TODO
