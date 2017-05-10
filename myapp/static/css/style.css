@@ -72,6 +72,15 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 
+#boxdbusca .input-group {
+  width: 80%;
+}
+
+#boxdbusca .input-group .form-control,
+#boxdbusca .input-group-btn {
+  display: block;
+}
+
 @media (min-width: 992px) {
   .jumbotron #boxdbusca {
     margin-top: 60px;
