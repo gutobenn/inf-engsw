@@ -51,6 +51,7 @@
 .item-detail #item-detail-owner {
   background: #e8e8e8;
   padding: 8px 10px;
+  margin-bottom: 20px;
 }
 
 #search-page-form p {
@@ -63,12 +64,12 @@
   display: inline-table;
 }
 
-input[type='number'] {
+#new-item-form input[type='number'] {
     -moz-appearance:textfield;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+#new-item-form input::-webkit-outer-spin-button,
+#new-item-form input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 

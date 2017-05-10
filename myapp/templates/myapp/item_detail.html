@@ -7,13 +7,36 @@
       <p><img src="{{ item.image.url }}"></p>
     </div>
     <div class="col-sm-5" id="rightcolx">
-      <p><h2>R${{ item.price }}</h2> por mês</p>
+      {% if item.status == item.AVAILABLE_STATUS %}
+        <p><h2>R${{ item.price }}</h2> por mês</p>
+      {% else %}
+        <h3><span class="label label-danger">Indisponível</span></h3>
+      {% endif %}
       <p id="item-detail-description">{{ item.description|linebreaksbr }}</p>
       <div id="item-detail-owner">Anunciado por {{ item.owner.first_name }} {{ item.owner.last_name }}
         {% if item.published_date %}
             em {{ item.published_date|date:"d/m/Y" }}
         {% endif %}
       </div>
+      {% if item.status == item.AVAILABLE_STATUS and request.user.is_authenticated and item.owner != request.user %}
+        <h4>Solicitar aluguel</h4>
+        <form method="post">
+          {% csrf_token %}
+          {% for field in form %}
+            <p>
+              {{ field.label_tag }}<br>
+              {{ field }}
+              {% if field.help_text %}
+                <small style="color: grey">{{ field.help_text }}</small>
+              {% endif %}
+              {% for error in field.errors %}
+                <p style="color: red">{{ error }}</p>
+              {% endfor %}
+            </p>
+          {% endfor %}
+          <button type="submit">Enviar</button>
+        </form>
+      {% endif %}
       <p><br><br><br>Avaliações</p>
     </div>
   </div>

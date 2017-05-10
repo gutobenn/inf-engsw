@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Item
+from .models import Item, Rent
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, help_text='Obrigatório.', label='Nome')
@@ -38,3 +38,9 @@ class SearchItemForm(forms.Form):
                     label='e R$',
                     widget = forms.TextInput(attrs={'size': 4, 'maxlength':4})
                     )
+
+class RentForm(forms.ModelForm):
+
+    class Meta:
+        model = Rent
+        fields = ('months', 'payment')

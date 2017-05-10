@@ -4,11 +4,10 @@ from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from myapp.forms import SignUpForm, ItemForm
+from myapp.forms import SignUpForm, ItemForm, SearchItemForm, RentForm
 from myapp.models import Item
 from search_views.views import SearchListView
 from search_views.filters import BaseFilter
-from .forms import SearchItemForm
 
 def index(request):
     items = Item.objects.filter(published_date__lte=timezone.now()).order_by('published_date') # TODO limitar numero de itens que aparece na pagina inicial
@@ -29,7 +28,7 @@ def item_new(request):
             item.owner = request.user
             item.published_date = timezone.now()
             item.save()
-            return redirect('items') #'post_detail', pk=post.pk)
+            return redirect('item_detail', pk=item.pk)
     else:
         form = ItemForm()
     return render(request, 'myapp/item_edit.html', {'form': form})
@@ -55,7 +54,20 @@ def item_edit(request, pk):
 
 def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
-    return render(request, 'myapp/item_detail.html', {'item': item})
+    if request.method == "POST":
+        form = RentForm(request.POST)
+        if form.is_valid():
+            rent = form.save(commit=False)
+            rent.user = request.user
+            rent.item = item
+            rent.status = rent.PENDING_STATUS
+            rent.request_date = timezone.now()
+            rent.save()
+            return redirect('item_detail', pk=item.pk) # TODO redirecionar para onde? Meus alugueis?
+            # TODO exibir uma mensagem de sucesso ou erro após enviar formulario
+    else:
+        form = RentForm()
+    return render(request, 'myapp/item_detail.html', {'item': item, 'form': form})
 
 def signup(request):
     if request.method == 'POST':
