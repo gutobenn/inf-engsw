@@ -6,8 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from myapp.forms import SignUpForm, ItemForm
 from myapp.models import Item
-from .filters import ItemFilter
-
+from search_views.views import SearchListView
+from search_views.filters import BaseFilter
+from .forms import SearchItemForm
 
 def index(request):
     items = Item.objects.filter(published_date__lte=timezone.now()).order_by('published_date') # TODO limitar numero de itens que aparece na pagina inicial
@@ -56,11 +57,6 @@ def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
     return render(request, 'myapp/item_detail.html', {'item': item})
 
-def search(request):
-    item_list = Item.objects.all()
-    item_filter = ItemFilter(request.GET, queryset=item_list)
-    return render(request, 'myapp/search.html', {'filter': item_filter})
-
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -74,3 +70,17 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'myapp/signup.html', {'form': form})
+
+class ItemFilter(BaseFilter):
+    search_fields = {
+        "search_text" : ["title", "description"],
+        "search_price_min" : { "operator" : "__gte", "fields" : ["price"] },
+        "search_price_max" : { "operator" : "__lte", "fields" : ["price"] },
+    }
+
+class ItemView(SearchListView):
+    model = Item
+    template_name = "myapp/search.html"
+
+    form_class = SearchItemForm
+    filter_class = ItemFilter

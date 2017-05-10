@@ -3,13 +3,15 @@
 {% block content %}
   <div class="container">
 
-    <form method="get">
-      {{ filter.form.as_p }}
-      <button type="submit">Search</button>
+    <h2>Busca</h2>
+
+    <form class="form" action="" method="get" id="search-page-form">
+      {{form.as_p}}
+      <button class="btn btn-default" type="submit" style="margin-top: -2px;"><i class="glyphicon glyphicon-search" style="font-size: 16px;"></i></button>
     </form>
 
     <div class="row items-list">
-      {% for item in filter.qs %}
+      {% for item in object_list %}
         <div class="col-sm-3 item">
           <div class="thumbnail">
             <img src="http://placehold.it/350x250">
@@ -21,5 +23,6 @@
         </div>
       {% endfor %}
     </div>
+
   </div> <!-- /container -->
 {% endblock %}

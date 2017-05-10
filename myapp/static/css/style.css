@@ -53,6 +53,25 @@
   padding: 8px 10px;
 }
 
+#search-page-form p {
+  margin-right: 15px;
+  display: inline-table;
+}
+
+#search-page-form #id_search_text {
+  margin-right: 40px;
+  display: inline-table;
+}
+
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 @media (min-width: 992px) {
   .jumbotron #boxdbusca {
     margin-top: 60px;

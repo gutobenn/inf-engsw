@@ -21,3 +21,20 @@ class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = ('title', 'description', 'price')
+
+class SearchItemForm(forms.Form):
+    search_text = forms.CharField(
+                    required = False,
+                    label='',
+                    widget=forms.TextInput(attrs={'placeholder': 'Eu quero...'})
+                  )
+    search_price_min = forms.IntegerField(
+                    required = False,
+                    label='Preço entre R$',
+                    widget = forms.TextInput(attrs={'size': 4, 'maxlength':4})
+                    )
+    search_price_max = forms.IntegerField(
+                    required = False,
+                    label='e R$',
+                    widget = forms.TextInput(attrs={'size': 4, 'maxlength':4})
+                    )
