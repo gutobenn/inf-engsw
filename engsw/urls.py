@@ -19,7 +19,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    #url(r'^myapp/', include('myapp.urls')),
     url(r'^', include('myapp.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]
