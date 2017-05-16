@@ -12,9 +12,8 @@ def index(request):
     items = Item.objects.filter(published_date__lte=timezone.now()).order_by('published_date')[:12]
     return render(request, 'myapp/index.html', {'items': items})
 
-# TODO rename this method? 'items' is generic... it could be someone like 'my items'
 @login_required(login_url='login')
-def items(request):
+def items_my(request):
     items = Item.objects.filter(owner=request.user).order_by('published_date')
     return render(request, 'myapp/items.html', {'items': items})
 
@@ -62,8 +61,8 @@ def item_detail(request, pk):
             rent.status = rent.PENDING_STATUS
             rent.request_date = timezone.now()
             rent.save()
-            return redirect('item_detail', pk=item.pk) # TODO redirecionar para onde? Meus alugueis?
-            # TODO exibir uma mensagem de sucesso ou erro após enviar formulario
+            return redirect('item_detail', pk=item.pk)
+            # TODO exibir uma mensagem de sucesso ou erro após enviar formulario? ou simplesmente mostrar "vc ja pediu esse item" e ai nao permitir q pessoa peça de novo
     else:
         form = RentForm()
     return render(request, 'myapp/item_detail.html', {'item': item, 'form': form})

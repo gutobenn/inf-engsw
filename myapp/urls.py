@@ -5,7 +5,7 @@ from myapp.views import ItemView
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^items/$', views.items, name='items'),
+    url(r'^items/$', views.items_my, name='items_my'),
     url(r'^items/new/$', views.item_new, name='item_new'),
     url(r'^items/(?P<pk>[0-9]+)/$', views.item_detail, name='item_detail'),
     url(r'^items/(?P<pk>[0-9]+)/edit/$', views.item_edit, name='item_edit'),
