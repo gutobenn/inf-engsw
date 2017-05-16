@@ -1,6 +1,9 @@
 {% extends 'alugueme/base.html' %}
 {% block content %}
   <h2>Meus Itens</h2>
+
+  <p><br><a href="{% url 'item_new' %}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Cadastrar Item</a><br><br></p>
+
   <div class="row">
     {% for item in items %}
       {% include 'alugueme/_display_item.html' %}
