@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-  <h2>Cadastrar Item</h2>
+  <h2>{{ title }}</h2>
   <form method="post" enctype="multipart/form-data" id="new-item-form">
     {% csrf_token %}
     {% for field in form %}
@@ -17,7 +17,7 @@
         {% endfor %}
       </p>
     {% endfor %}
-    <button type="submit">Cadastrar Item</button>
+    <button type="submit">{{ title }}</button>
   </form>
 </div>
 {% endblock %}

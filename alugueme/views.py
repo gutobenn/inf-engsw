@@ -29,7 +29,7 @@ def item_new(request):
             return redirect('item_detail', pk=item.pk)
     else:
         form = ItemForm()
-    return render(request, 'alugueme/item_edit.html', {'form': form})
+    return render(request, 'alugueme/item_edit.html', {'form': form, 'title': 'Cadastrar Item'})
 
 @login_required(login_url='login')
 def item_edit(request, pk):
@@ -48,7 +48,7 @@ def item_edit(request, pk):
             return redirect('item_detail', pk=item.pk)
     else:
         form = ItemForm(instance=item)
-    return render(request, 'alugueme/item_edit.html', {'form': form})
+    return render(request, 'alugueme/item_edit.html', {'form': form, 'title': 'Editar Item'})
 
 def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
