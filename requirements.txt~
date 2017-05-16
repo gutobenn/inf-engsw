@@ -1,3 +1,0 @@
-Django==1.11
-django-search-views==0.3.7
-Pillow==4.1.1
