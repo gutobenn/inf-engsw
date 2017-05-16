@@ -2,7 +2,11 @@
 {% block content %}
   <div class="row item-detail">
     <div class="col-sm-7" id="leftcolx">
-      <h1>{{ item.title }}</h1>
+      <h1>{{ item.title }}
+        {% if item.owner == request.user %}
+        <small><a href="{% url 'item_edit' pk=item.pk %}">[Editar]</a></small>
+        {% endif %}
+      </h1>
       <p><img src="{{ item.image.url }}"></p>
     </div>
     <div class="col-sm-5" id="rightcolx">
