@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-#from easymoney import MoneyField
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
