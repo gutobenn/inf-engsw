@@ -9,8 +9,12 @@
     </form>
 
     <div class="row items-list">
-      {% for item in object_list %}
-        {% include 'alugueme/_display_item.html' %}
-      {% endfor %}
+      {% if object_list %}
+        {% for item in object_list %}
+          {% include 'alugueme/_display_item.html' %}
+        {% endfor %}
+      {% else %}
+        Nenhum item encontrado
+      {% endif %}
     </div>
 {% endblock %}

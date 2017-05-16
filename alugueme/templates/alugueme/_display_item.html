@@ -5,7 +5,7 @@
       <h4><a href="{% url 'item_detail' pk=item.pk %}">{{ item.title }}</a> R${{ item.price }}</h4>
       <p>{{ item.description|linebreaksbr|truncatechars:200 }}</p>
       {% if item.owner == request.user %}
-      <p><br><a href="{%url 'item_edit' pk=item.pk }">Editar</a></p>
+        <p><br><a href="{%url 'item_edit' pk=item.pk %}">Editar</a></p>
       {% endif %}
     </div>
   </div>
