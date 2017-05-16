@@ -1,5 +1,8 @@
 {% extends 'alugueme/base.html' %}
 {% block content %}
+
+</div>
+
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
   <div class="container">
@@ -25,8 +28,7 @@
 <div class="container">
   <div class="row items-list">
     {% for item in items %}
-      {% include 'myapp/_display_item.html' %}
+      {% include 'alugueme/_display_item.html' %}
     {% endfor %}
   </div>
-</div> <!-- /container -->
 {% endblock %}

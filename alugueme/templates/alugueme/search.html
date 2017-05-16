@@ -1,8 +1,6 @@
 {% extends 'alugueme/base.html' %}
 
 {% block content %}
-  <div class="container">
-
     <h2>Busca</h2>
 
     <form class="form" action="" method="get" id="search-page-form">
@@ -15,6 +13,4 @@
         {% include 'alugueme/_display_item.html' %}
       {% endfor %}
     </div>
-
-  </div> <!-- /container -->
 {% endblock %}

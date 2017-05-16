@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -15,7 +16,7 @@ def index(request):
 @login_required(login_url='login')
 def items_my(request):
     items = Item.objects.filter(owner=request.user).order_by('published_date')
-    return render(request, 'alugueme/items.html', {'items': items})
+    return render(request, 'alugueme/items_my.html', {'items': items})
 
 @login_required(login_url='login')
 def item_new(request):
@@ -26,6 +27,7 @@ def item_new(request):
             item.owner = request.user
             item.published_date = timezone.now()
             item.save()
+            messages.success(request, 'Item cadastrado com sucesso!')
             return redirect('item_detail', pk=item.pk)
     else:
         form = ItemForm()
@@ -45,6 +47,7 @@ def item_edit(request, pk):
             item.owner = request.user
             item.published_date = timezone.now()
             item.save()
+            messages.success(request, 'Item alterado com sucesso!')
             return redirect('item_detail', pk=item.pk)
     else:
         form = ItemForm(instance=item)
@@ -61,8 +64,8 @@ def item_detail(request, pk):
             rent.status = rent.PENDING_STATUS
             rent.request_date = timezone.now()
             rent.save()
+            messages.success(request, 'Pedido realizado com sucesso! Assim que o dono do item avaliá-lo, te enviaremos um e-mail.')
             return redirect('item_detail', pk=item.pk)
-            # TODO exibir uma mensagem de sucesso ou erro após enviar formulario? ou simplesmente mostrar "vc ja pediu esse item" e ai nao permitir q pessoa peça de novo
     else:
         form = RentForm()
     return render(request, 'alugueme/item_detail.html', {'item': item, 'form': form})
@@ -76,6 +79,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
+            messages.success(request, 'Olá, {0}!'.format(user))
             return redirect('index')
     else:
         form = SignUpForm()

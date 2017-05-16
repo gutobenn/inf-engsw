@@ -1,7 +1,6 @@
 {% extends 'alugueme/base.html' %}
 
 {% block content %}
-<div class="container">
   <h2>Cadastrar-se</h2>
   <form method="post">
     {% csrf_token %}
@@ -19,5 +18,4 @@
     {% endfor %}
     <button type="submit">Cadastrar-se</button>
   </form>
-</div>
 {% endblock %}
