@@ -1,4 +1,4 @@
-{% extends 'myapp/base.html' %}
+{% extends 'alugueme/base.html' %}
 
 {% block content %}
   <div class="container">
@@ -12,7 +12,7 @@
 
     <div class="row items-list">
       {% for item in object_list %}
-        {% include 'myapp/_display_item.html' %}
+        {% include 'alugueme/_display_item.html' %}
       {% endfor %}
     </div>
 

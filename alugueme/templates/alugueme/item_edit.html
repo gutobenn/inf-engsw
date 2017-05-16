@@ -1,9 +1,9 @@
-{% extends 'myapp/base.html' %}
+{% extends 'alugueme/base.html' %}
 
 {% block content %}
 <div class="container">
-  <h2>Cadastrar-se</h2>
-  <form method="post">
+  <h2>Cadastrar Item</h2>
+  <form method="post" enctype="multipart/form-data" id="new-item-form">
     {% csrf_token %}
     {% for field in form %}
       <p>
@@ -17,7 +17,7 @@
         {% endfor %}
       </p>
     {% endfor %}
-    <button type="submit">Cadastrar-se</button>
+    <button type="submit">Cadastrar Item</button>
   </form>
 </div>
 {% endblock %}
