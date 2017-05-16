@@ -8,13 +8,15 @@
       <button class="btn btn-default" type="submit" style="margin-top: -2px;"><i class="glyphicon glyphicon-search" style="font-size: 16px;"></i></button>
     </form>
 
-    <div class="row items-list">
-      {% if object_list %}
+    {% if object_list %}
+      <h3>{{ object_list.count }} resultados</h3>
+      <div class="row items-list">
         {% for item in object_list %}
           {% include 'alugueme/_display_item.html' %}
         {% endfor %}
-      {% else %}
-        Nenhum item encontrado
-      {% endif %}
-    </div>
+      </div>
+    {% else %}
+      Nenhum item encontrado
+    {% endif %}
+
 {% endblock %}
