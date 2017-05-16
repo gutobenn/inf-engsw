@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -10,7 +9,7 @@ from search_views.views import SearchListView
 from search_views.filters import BaseFilter
 
 def index(request):
-    items = Item.objects.filter(published_date__lte=timezone.now()).order_by('published_date') # TODO limitar numero de itens que aparece na pagina inicial
+    items = Item.objects.filter(published_date__lte=timezone.now()).order_by('published_date')[:12]
     return render(request, 'myapp/index.html', {'items': items})
 
 # TODO rename this method? 'items' is generic... it could be someone like 'my items'
