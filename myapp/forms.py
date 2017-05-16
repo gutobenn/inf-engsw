@@ -9,7 +9,7 @@ class SignUpForm(UserCreationForm):
     last_name = forms.CharField(max_length=30, help_text='Obrigatório.', label='Sobrenome')
     email = forms.EmailField(max_length=254, help_text='Obrigatório. Informe um endereço de e-mail válido.')
     phone_number = forms.RegexField(max_length=11, regex=r'^\d{10,11}$',
-                                error_message = ("Número de telefone precisa estar no formato: 'DDD999999999'. Até 11 digitos."),
+                                error_messages = {'required':"Número de telefone precisa estar no formato: 'DDD999999999'. Até 11 digitos."},
                                 label='Telefone')
 
     class Meta:
