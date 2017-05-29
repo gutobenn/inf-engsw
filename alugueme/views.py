@@ -86,10 +86,18 @@ def signup(request):
     return render(request, 'alugueme/signup.html', {'form': form})
 
 class ItemFilter(BaseFilter):
+    def valuemapper(value):
+        if value == "on":
+            value = Item.AVAILABLE_STATUS
+        else:
+            value = Item.UNAVAILABLE_STATUS
+
+    # TODO transformar value para int? alterar o __exact para __lte
     search_fields = {
         "search_text" : ["title", "description"],
         "search_price_min" : { "operator" : "__gte", "fields" : ["price"] },
         "search_price_max" : { "operator" : "__lte", "fields" : ["price"] },
+        "search_available" : { "operator" : "__exact", "fields" : ["status"], "value_mapper" : valuemapper },
     }
 
 class ItemView(SearchListView):

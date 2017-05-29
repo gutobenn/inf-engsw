@@ -47,6 +47,14 @@ class SearchItemForm(forms.Form):
                     widget = forms.TextInput(attrs={'size': 4, 'maxlength':4})
                     )
 
+    search_available = forms.IntegerField(
+                    required = False,
+                    label='e R$',
+                    widget = forms.CheckboxInput()
+                    )
+
+
+
 class RentForm(forms.ModelForm):
 
     class Meta:
