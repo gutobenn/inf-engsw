@@ -47,12 +47,12 @@ class SearchItemForm(forms.Form):
                     widget = forms.TextInput(attrs={'size': 4, 'maxlength':4})
                     )
 
-    search_available = forms.IntegerField(
+    search_onlyavailable = forms.BooleanField(
+                    initial=True,
                     required = False,
-                    label='e R$',
+                    label='Exibir apenas itens disponíveis',
                     widget = forms.CheckboxInput()
                     )
-
 
 
 class RentForm(forms.ModelForm):
