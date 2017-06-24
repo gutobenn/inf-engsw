@@ -9,7 +9,7 @@ from alugueme.forms import SignUpForm, ItemForm, SearchItemForm, RentForm
 from alugueme.models import Item, Rent
 from search_views.views import SearchListView
 from search_views.filters import BaseFilter
-from django.views.generic import DeleteView
+from django.views.generic import DeleteView, UpdateView
 from django.core.urlresolvers import reverse_lazy
 from django.http import Http404
 
@@ -114,12 +114,13 @@ class ItemView(SearchListView):
 
 @login_required(login_url='login')
 def rents(request):
-    my_rents = Rent.objects.filter(user=request.user)
-    rents_my_items = Rent.objects.filter(item__owner=request.user)
+    my_rents = Rent.objects.filter(user=request.user, status=Rent.PENDING_STATUS)
+    rents_my_items = Rent.objects.filter(item__owner=request.user, status=Rent.PENDING_STATUS)
     payment_choices = Rent.PAYMENT_CHOICES
     return render(request, 'alugueme/rents.html', {'my_rents': my_rents, 'rents_my_items': rents_my_items, 'payment_choices': payment_choices})
 
 class RentCancel(DeleteView):
+    # TODO estamos removendo, mas será q a ideia é remover ou setar status pra cancelado?
     model = Rent
 
     def get_object(self, queryset=None):
@@ -129,3 +130,36 @@ class RentCancel(DeleteView):
         return obj
 
     success_url = reverse_lazy('rents')
+
+@login_required(login_url='login')
+def rent_accept(request, pk):
+    rent = get_object_or_404(Rent, pk=pk)
+
+    if request.method == "POST" and request.user == rent.item.owner:
+        rent.status = Rent.CONFIRMED_STATUS
+        rent.item.status = Item.UNAVAILABLE_STATUS
+        rent.save()
+
+        # Cancel other rent requests for same item
+        other_rent_requests = Rent.objects.filter(item=rent.item, status=Rent.PENDING_STATUS)
+        for rent_request in other_rent_requests:
+            rent_request.status = Rent.CANCELLED_STATUS
+            rent_request.save()
+        # TODO avisar outros usuarios que seus pedidos foram cancelados pois outro pedido para o mesmo item ja foi aceito
+
+        messages.success(request, 'Pedido aceito')
+        return redirect('rents')
+    else:
+        raise Http404
+
+@login_required(login_url='login')
+def rent_reject(request, pk):
+    rent = get_object_or_404(Rent, pk=pk)
+
+    if request.method == "POST" and request.user == rent.item.owner:
+        rent.status = Rent.CANCELLED_STATUS
+        rent.save()
+        messages.success(request, 'Pedido rejeitado')
+        return redirect('rents')
+    else:
+        raise Http404

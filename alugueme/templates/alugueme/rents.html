@@ -55,8 +55,12 @@
               {% endif %}
           </div>
           <div class="rent_buttons">
-            <button type="button" class="btn btn-success btn-sm">Aceitar</button>
-            <button type="button" class="btn btn-danger btn-sm">Recusar</button>
+            <form action="{% url 'rent_accept' pk=rent.pk %}" method="post">{% csrf_token %}
+              <button type="submit" class="btn btn-success btn-sm">Aceitar</button>
+            </form>
+            <form action="{% url 'rent_reject' pk=rent.pk %}" method="post">{% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">Recusar</button>
+            </form>
           </div>
         </div>
       {% endfor %}
