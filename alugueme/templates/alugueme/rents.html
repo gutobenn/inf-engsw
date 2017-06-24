@@ -12,7 +12,15 @@
           </div>
           <div class="rent_description">
             <a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br>
-            Anunciado por {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}
+            Anunciado por {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
+            Pedido em {{ rent.request_date|date:"d/m/Y" }}<br>
+            Período: {{ rent.months }} meses<br>
+            Forma de pagamento:
+              {% if rent.payment == 1 %}
+                {{ payment_choices.0.1 }}
+              {% else %}
+                {{ payment_choices.1.1 }}
+              {% endif %}
           </div>
           <div class="rent_buttons">
             <button type="button" class="btn btn-danger btn-xs">Cancelar</button>
@@ -21,7 +29,7 @@
       {% endfor %}
 
       <h3>Itens alugados</h3>
-      itens que estao com o usuario no momento
+      TODO itens que estao com o usuario no momento
     </div>
 
     <div class="col-md-6">
@@ -33,7 +41,14 @@
           </div>
           <div class="rent_description">
             <a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br>
-            Pedido por {{ rent.user.first_name }} {{ rent.user.last_name }}
+            Pedido por {{ rent.user.first_name }} {{ rent.user.last_name }}, {{ rent.request_date|date:"d/m/Y" }}<br>
+            Período: {{ rent.months }} meses<br>
+            Forma de pagamento:
+              {% if rent.payment == 1 %}
+                {{ payment_choices.0.1 }}
+              {% else %}
+                {{ payment_choices.1.1 }}
+              {% endif %}
           </div>
           <div class="rent_buttons">
             <button type="button" class="btn btn-success btn-sm">Aceitar</button>

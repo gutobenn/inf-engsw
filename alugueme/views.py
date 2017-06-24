@@ -113,4 +113,5 @@ class ItemView(SearchListView):
 def rents(request):
     my_rents = Rent.objects.filter(user=request.user)
     rents_my_items = Rent.objects.filter(item__owner=request.user)
-    return render(request, 'alugueme/rents.html', {'my_rents': my_rents, 'rents_my_items': rents_my_items})
+    payment_choices = Rent.PAYMENT_CHOICES
+    return render(request, 'alugueme/rents.html', {'my_rents': my_rents, 'rents_my_items': rents_my_items, 'payment_choices': payment_choices})
