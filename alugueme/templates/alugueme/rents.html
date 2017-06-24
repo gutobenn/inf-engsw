@@ -2,25 +2,45 @@
 {% block content %}
   <h2>Alugueis</h2>
 
-  <div class="row">
+  <div class="row rents">
     <div class="col-md-6">
-      <h3>Meus pedidos</h3>
-      <div class="row">
-        {% for rent in rents %}
-          <div class="rents-rent">
-            <h5><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a></h5>
+      <h3>Meus pedidos pendentes</h3>
+      {% for rent in my_rents %}
+        <div class="pending_rent clearfix">
+          <div class="rent_img">
+            <img src="{{ rent.item.image.url }}">
           </div>
-        {% endfor %}
-      </div>
+          <div class="rent_description">
+            <a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br>
+            Anunciado por {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}
+          </div>
+          <div class="rent_buttons">
+            <button type="button" class="btn btn-danger btn-xs">Cancelar</button>
+          </div>
+        </div>
+      {% endfor %}
 
       <h3>Itens alugados</h3>
-      <div class="row">
-        itens que estao com o usuario no momento
-      </div>
+      itens que estao com o usuario no momento
     </div>
+
     <div class="col-md-6">
       <h3>Pedidos de meus itens</h3>
-      aqui vem a lista de pedidos pendentes
+      {% for rent in rents_my_items %}
+        <div class="my_item_rent clearfix">
+          <div class="rent_img">
+            <img src="{{ rent.item.image.url }}">
+          </div>
+          <div class="rent_description">
+            <a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br>
+            Pedido por {{ rent.user.first_name }} {{ rent.user.last_name }}
+          </div>
+          <div class="rent_buttons">
+            <button type="button" class="btn btn-success btn-sm">Aceitar</button>
+            <button type="button" class="btn btn-danger btn-sm">Recusar</button>
+          </div>
+        </div>
+      {% endfor %}
     </div>
   </div>
 

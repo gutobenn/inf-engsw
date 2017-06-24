@@ -1,3 +1,4 @@
+/* Navbar */
 .navbar-inverse {
   background: #222222;
   margin-bottom: 0;
@@ -12,6 +13,7 @@
   background: #090909;
 }
 
+/* Home */
 .jumbotron p {
   font-size: 17px;
 }
@@ -21,6 +23,22 @@
   margin-bottom: 15px;
 }
 
+#boxdbusca .input-group {
+  width: 80%;
+}
+
+#boxdbusca .input-group .form-control,
+#boxdbusca .input-group-btn {
+  display: block;
+}
+
+@media (min-width: 992px) {
+  .jumbotron #boxdbusca {
+    margin-top: 60px;
+  }
+}
+
+/* List of items */
 .items-list .item {
   font-size: 13px;
   margin-bottom: 20px;
@@ -58,6 +76,17 @@
   margin-bottom: 20px;
 }
 
+/* New Item */
+#new-item-form input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+#new-item-form input::-webkit-outer-spin-button,
+#new-item-form input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+/* Search */
 #search-page-form p {
   margin-right: 15px;
   display: inline-table;
@@ -68,26 +97,39 @@
   display: inline-table;
 }
 
-#new-item-form input[type='number'] {
-    -moz-appearance:textfield;
+/* Rents */
+.rents .pending_rent,
+.rents .my_item_rent {
+  background: #fafafa;
+  padding: 15px 10px;
+  border-bottom: 1px solid #e8e8e8;
 }
 
-#new-item-form input::-webkit-outer-spin-button,
-#new-item-form input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+.rents .pending_rent .rent_img,
+.rents .my_item_rent .rent_img {
+  max-width: 80px;
+  float: left;
 }
 
-#boxdbusca .input-group {
-  width: 80%;
+.rents .pending_rent .rent_img img,
+.rents .my_item_rent .rent_img img {
+  max-width: 100%;
 }
 
-#boxdbusca .input-group .form-control,
-#boxdbusca .input-group-btn {
-  display: block;
+.rents .pending_rent .rent_description,
+.rents .my_item_rent .rent_description {
+  padding-left: 15px;
+  display: inline-block;
 }
 
-@media (min-width: 992px) {
-  .jumbotron #boxdbusca {
-    margin-top: 60px;
-  }
+.rents .pending_rent .rent_buttons,
+.rents .my_item_rent .rent_buttons {
+  float: right;
+}
+
+/* Extra */
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
 }

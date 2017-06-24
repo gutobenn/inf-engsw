@@ -106,5 +106,6 @@ class ItemView(SearchListView):
 
 @login_required(login_url='login')
 def rents(request):
-    rents = Rent.objects.filter(user=request.user)
-    return render(request, 'alugueme/rents.html', {'rents': rents})
+    my_rents = Rent.objects.filter(user=request.user)
+    rents_my_items = Rent.objects.filter(item__owner=request.user)
+    return render(request, 'alugueme/rents.html', {'my_rents': my_rents, 'rents_my_items': rents_my_items})
