@@ -30,7 +30,7 @@
                   {% if user.is_authenticated %}
                     <li><a href="{% url 'item_new' %}">Cadastrar Item</a></li>
                     <li><a href="{% url 'items_my' %}">Meus Itens</a></li>
-                    <li><a href="#">Meus Alugueis</a></li>
+                    <li><a href="{% url 'rents' %}">Meus Alugueis</a></li>
                     <li><a href="{% url 'logout' %}">Sair</a></li>
                   {% else %}
                   <li><a href="{% url 'signup' %}">Cadastrar-se</a></li>

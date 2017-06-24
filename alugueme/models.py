@@ -36,8 +36,8 @@ class Rent(models.Model):
         (MONEY, 'Dinheiro'),
         (TRADE, 'Troca'),
     )
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
-    item = models.OneToOneField(Item,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE) # TODO conferir se ta correto usar foreignkey. outra possibilidade é modelar pedido de aluguel em uma classe diferente.
+    item = models.ForeignKey(Item,on_delete=models.CASCADE)
     status = models.IntegerField(choices=STATUS_CHOICES, default=PENDING_STATUS)
     request_date = models.DateTimeField()
     confirmation_date = models.DateTimeField(blank=True, null=True)

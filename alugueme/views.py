@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models import Q
 from alugueme.forms import SignUpForm, ItemForm, SearchItemForm, RentForm
-from alugueme.models import Item
+from alugueme.models import Item, Rent
 from search_views.views import SearchListView
 from search_views.filters import BaseFilter
 
@@ -103,3 +103,8 @@ class ItemView(SearchListView):
 
     form_class = SearchItemForm
     filter_class = ItemFilter
+
+@login_required(login_url='login')
+def rents(request):
+    rents = Rent.objects.filter(user=request.user)
+    return render(request, 'alugueme/rents.html', {'rents': rents})
