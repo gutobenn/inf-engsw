@@ -21,7 +21,9 @@
             em {{ item.published_date|date:"d/m/Y" }}
         {% endif %}
       </div>
-      {% if item.status == item.AVAILABLE_STATUS and request.user.is_authenticated and item.owner != request.user %}
+      {% if alreadyrequested %}
+        <div id="alreadyrequested">Você já solicitou o aluguel deste item. Caso queira cancelar o pedido, acesse a página <a href="{% url 'rents' %}">Meus Aluguéis</a>.</div>
+      {% elif form %}
         <h4>Solicitar aluguel</h4>
         <form method="post">
           {% csrf_token %}

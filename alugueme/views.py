@@ -66,10 +66,15 @@ def item_detail(request, pk):
             rent.request_date = timezone.now()
             rent.save()
             messages.success(request, 'Pedido realizado com sucesso! Assim que o dono do item avaliá-lo, te enviaremos um e-mail.')
-            return redirect('item_detail', pk=item.pk)
+            return redirect('item_detail', pk=item.pk )
     else:
-        form = RentForm()
-    return render(request, 'alugueme/item_detail.html', {'item': item, 'form': form})
+        if request.user.is_authenticated:
+            if Rent.objects.filter(user=request.user, item=item).exists():
+                return render(request, 'alugueme/item_detail.html', {'item': item, 'alreadyrequested': True})
+            elif item.status == item.AVAILABLE_STATUS and item.owner != request.user :
+                form = RentForm()
+                return render(request, 'alugueme/item_detail.html', {'item': item, 'form': form})
+    return render(request, 'alugueme/item_detail.html', {'item': item})
 
 def signup(request):
     if request.method == 'POST':

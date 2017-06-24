@@ -76,6 +76,11 @@
   margin-bottom: 20px;
 }
 
+.item-detail #alreadyrequested {
+  background: #D2EAC9;
+  padding: 15px 10px;
+}
+
 /* New Item */
 #new-item-form input[type='number'] {
     -moz-appearance:textfield;
