@@ -4,13 +4,14 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.db.models import Q
 from alugueme.forms import SignUpForm, ItemForm, SearchItemForm, RentForm
 from alugueme.models import Item
 from search_views.views import SearchListView
 from search_views.filters import BaseFilter
 
 def index(request):
-    items = Item.objects.filter(published_date__lte=timezone.now()).order_by('published_date')[:12]
+    items = Item.objects.filter(published_date__lte=timezone.now(), status=Item.AVAILABLE_STATUS).order_by('published_date')[:12]
     return render(request, 'alugueme/index.html', {'items': items})
 
 @login_required(login_url='login')
@@ -86,10 +87,14 @@ def signup(request):
     return render(request, 'alugueme/signup.html', {'form': form})
 
 class ItemFilter(BaseFilter):
+    def only_available_status_query_method(model_field, request_field_value, params_dict):
+        return Q(status__lte=Item.AVAILABLE_STATUS)
+
     search_fields = {
         "search_text" : ["title", "description"],
         "search_price_min" : { "operator" : "__gte", "fields" : ["price"] },
         "search_price_max" : { "operator" : "__lte", "fields" : ["price"] },
+        "search_onlyavailable" : { "fields" : ["status"], "custom_query": only_available_status_query_method },
     }
 
 class ItemView(SearchListView):

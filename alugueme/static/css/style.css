@@ -30,6 +30,10 @@
   margin-top: 20px;
 }
 
+.item-detail #leftcolx img {
+  width: 100%;
+}
+
 .item-detail #leftcolx h1 {
   margin-bottom: 15px;
 }

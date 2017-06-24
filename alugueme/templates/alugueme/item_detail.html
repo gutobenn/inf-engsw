@@ -7,7 +7,7 @@
         <small><a href="{% url 'item_edit' pk=item.pk %}">[Editar]</a></small>
         {% endif %}
       </h1>
-      <p><img src="{{ item.image.url }}"></p>
+      <img src="{{ item.image.url }}">
     </div>
     <div class="col-sm-5" id="rightcolx">
       {% if item.status == item.AVAILABLE_STATUS %}
