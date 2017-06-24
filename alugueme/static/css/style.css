@@ -104,31 +104,36 @@
 
 /* Rents */
 .rents .pending_rent,
-.rents .my_item_rent {
+.rents .my_item_rent,
+.rents .my_current_rent {
   background: #fafafa;
   padding: 15px 10px;
   border-bottom: 1px solid #e8e8e8;
 }
 
 .rents .pending_rent .rent_img,
-.rents .my_item_rent .rent_img {
+.rents .my_item_rent .rent_img,
+.rents .my_current_rent .rent_img {
   max-width: 80px;
   float: left;
 }
 
 .rents .pending_rent .rent_img img,
-.rents .my_item_rent .rent_img img {
+.rents .my_item_rent .rent_img img,
+.rents .my_current_rent .rent_img img {
   max-width: 100%;
 }
 
 .rents .pending_rent .rent_description,
-.rents .my_item_rent .rent_description {
+.rents .my_item_rent .rent_description,
+.rents .my_current_rent .rent_description {
   padding-left: 15px;
   display: inline-block;
 }
 
 .rents .pending_rent .rent_buttons,
-.rents .my_item_rent .rent_buttons {
+.rents .my_item_rent .rent_buttons,
+.rents .my_current_rent .rent_buttons {
   float: right;
 }
 

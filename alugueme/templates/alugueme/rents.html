@@ -33,7 +33,18 @@
       {% endfor %}
 
       <h3>Itens alugados</h3>
-      TODO itens que estao com o usuario no momento
+      {% for rent in my_current_rents %}
+        <div class="my_current_rent clearfix">
+          <div class="rent_img">
+            <img src="{{ rent.item.image.url }}">
+          </div>
+          <div class="rent_description">
+            <a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br>
+            Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
+            Data de devolução: {{ rent.return_date }}
+          </div>
+        </div>
+      {% endfor %}
     </div>
 
     <div class="col-md-6">

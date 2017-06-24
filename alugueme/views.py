@@ -72,7 +72,7 @@ def item_detail(request, pk):
             return redirect('item_detail', pk=item.pk )
     else:
         if request.user.is_authenticated:
-            if Rent.objects.filter(user=request.user, item=item).exists():
+            if Rent.objects.filter(user=request.user, item=item, status=Rent.PENDING_STATUS).exists():
                 return render(request, 'alugueme/item_detail.html', {'item': item, 'alreadyrequested': True})
             elif item.status == item.AVAILABLE_STATUS and item.owner != request.user :
                 form = RentForm()
@@ -115,9 +115,16 @@ class ItemView(SearchListView):
 @login_required(login_url='login')
 def rents(request):
     my_rents = Rent.objects.filter(user=request.user, status=Rent.PENDING_STATUS)
+    my_current_rents = Rent.objects.filter(user=request.user, status=Rent.CONFIRMED_STATUS)
     rents_my_items = Rent.objects.filter(item__owner=request.user, status=Rent.PENDING_STATUS)
-    payment_choices = Rent.PAYMENT_CHOICES
-    return render(request, 'alugueme/rents.html', {'my_rents': my_rents, 'rents_my_items': rents_my_items, 'payment_choices': payment_choices})
+
+    for rent in my_current_rents:
+        rent.return_date = rent.confirmation_date
+        # TODO set correct return date
+        # TODO fazer assim ou criar um campo para data de devolucao no model?
+        # Além disso, o relative delta leva em conta a quantida de dias do mes para calcular. É assim mesmo que queremos?
+
+    return render(request, 'alugueme/rents.html', {'my_rents': my_rents, 'rents_my_items': rents_my_items, 'my_current_rents': my_current_rents, 'payment_choices': Rent.PAYMENT_CHOICES})
 
 class RentCancel(DeleteView):
     # TODO estamos removendo, mas será q a ideia é remover ou setar status pra cancelado?
@@ -137,7 +144,9 @@ def rent_accept(request, pk):
 
     if request.method == "POST" and request.user == rent.item.owner:
         rent.status = Rent.CONFIRMED_STATUS
+        rent.confirmation_date = timezone.now() # TODO usar date.today() ? E se a troca não for feita no dia? a data de devolucao vai ficar errada
         rent.item.status = Item.UNAVAILABLE_STATUS
+        rent.item.save()
         rent.save()
 
         # Cancel other rent requests for same item
