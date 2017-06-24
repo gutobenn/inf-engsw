@@ -3,7 +3,7 @@ from django.views.generic.base import RedirectView
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import ItemView
+from .views import ItemView, RentCancel
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -13,6 +13,9 @@ urlpatterns = [
     url(r'^items/(?P<pk>[0-9]+)/$', views.item_detail, name='item_detail'),
     url(r'^items/(?P<pk>[0-9]+)/edit/$', views.item_edit, name='item_edit'),
     url(r'^rents/$', views.rents, name='rents'),
+    url(r'^rents/(?P<pk>[0-9]+)/cancel/$', RentCancel.as_view(), name='rent_cancel'),
+    url(r'^rents/(?P<pk>[0-9]+)/accept/$', views.rents, name='rent_accept'),
+    url(r'^rents/(?P<pk>[0-9]+)/reject/$', views.rents, name='rent_reject'),
     url(r'^search', ItemView.as_view(), name="search"),
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^login/$', auth_views.login, name='login'),

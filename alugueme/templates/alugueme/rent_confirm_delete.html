@@ -1,0 +1,13 @@
+{% extends "alugueme/base.html" %}
+
+{% block content %}
+
+<h2>Cancelar pedido</h2>
+<form action="" method="post">
+  {% csrf_token %}
+  <p>Deseja mesmo cancelar o pedido de {{ object.item }}?</p>
+  <button type="submit" class="btn btn-danger btn-xs">Sim</button>
+  <a href="{% url 'rents' %}">Não</a>
+</form>
+
+{% endblock %}

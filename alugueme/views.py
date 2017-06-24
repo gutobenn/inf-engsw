@@ -9,6 +9,9 @@ from alugueme.forms import SignUpForm, ItemForm, SearchItemForm, RentForm
 from alugueme.models import Item, Rent
 from search_views.views import SearchListView
 from search_views.filters import BaseFilter
+from django.views.generic import DeleteView
+from django.core.urlresolvers import reverse_lazy
+from django.http import Http404
 
 def index(request):
     items = Item.objects.filter(published_date__lte=timezone.now(), status=Item.AVAILABLE_STATUS).order_by('published_date')[:12]
@@ -115,3 +118,14 @@ def rents(request):
     rents_my_items = Rent.objects.filter(item__owner=request.user)
     payment_choices = Rent.PAYMENT_CHOICES
     return render(request, 'alugueme/rents.html', {'my_rents': my_rents, 'rents_my_items': rents_my_items, 'payment_choices': payment_choices})
+
+class RentCancel(DeleteView):
+    model = Rent
+
+    def get_object(self, queryset=None):
+        obj = super(RentCancel, self).get_object()
+        if not obj.user == self.request.user:
+            raise Http404
+        return obj
+
+    success_url = reverse_lazy('rents')

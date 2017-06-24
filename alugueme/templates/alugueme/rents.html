@@ -25,7 +25,9 @@
               {% endif %}
           </div>
           <div class="rent_buttons">
-            <button type="button" class="btn btn-danger btn-xs">Cancelar</button>
+              <a href="{% url 'rent_cancel' pk=rent.pk %}">
+                <button type="button" class="btn btn-danger btn-xs">Cancelar</button>
+              </a>
           </div>
         </div>
       {% endfor %}
