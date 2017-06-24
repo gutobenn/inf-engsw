@@ -1,4 +1,5 @@
 {% extends 'alugueme/base.html' %}
+{% load humanize %}
 {% block content %}
   <h2>Aluguéis</h2>
 
@@ -13,11 +14,12 @@
           <div class="rent_description">
             <a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br>
             Anunciado por {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
-            Pedido em {{ rent.request_date|date:"d/m/Y" }}<br>
+            Pedido {{ rent.request_date|naturaltime }}<br>
             Período: {{ rent.months }} meses<br>
             Forma de pagamento:
               {% if rent.payment == 1 %}
-                {{ payment_choices.0.1 }}
+                {{ payment_choices.0.1 }}<br>
+                R${{ rent.item.price }} por mês
               {% else %}
                 {{ payment_choices.1.1 }}
               {% endif %}
@@ -41,7 +43,7 @@
           </div>
           <div class="rent_description">
             <a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br>
-            Pedido por {{ rent.user.first_name }} {{ rent.user.last_name }}, {{ rent.request_date|date:"d/m/Y" }}<br>
+            Pedido por {{ rent.user.first_name }} {{ rent.user.last_name }}, {{ rent.request_date|naturaltime }}<br>
             Período: {{ rent.months }} meses<br>
             Forma de pagamento:
               {% if rent.payment == 1 %}

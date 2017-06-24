@@ -1,4 +1,5 @@
 {% extends 'alugueme/base.html' %}
+{% load humanize %}
 {% block content %}
   <div class="row item-detail">
     <div class="col-sm-7" id="leftcolx">
@@ -18,7 +19,7 @@
       <p id="item-detail-description">{{ item.description|linebreaksbr }}</p>
       <div id="item-detail-owner">Anunciado por {{ item.owner.first_name }} {{ item.owner.last_name }}
         {% if item.published_date %}
-            em {{ item.published_date|date:"d/m/Y" }}
+            {{ item.published_date|naturaltime }}
         {% endif %}
       </div>
       {% if alreadyrequested %}
