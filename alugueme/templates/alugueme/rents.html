@@ -25,9 +25,9 @@
               {% endif %}
           </div>
           <div class="rent_buttons">
-              <a href="{% url 'rent_cancel' pk=rent.pk %}">
-                <button type="button" class="btn btn-danger btn-xs">Cancelar</button>
-              </a>
+            <form action="{% url 'rent_cancel' pk=rent.pk %}" method="post">{% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-xs">Cancelar</button>
+            </form>
           </div>
         </div>
       {% endfor %}

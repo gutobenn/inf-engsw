@@ -136,17 +136,17 @@ def rents(request):
 
     return render(request, 'alugueme/rents.html', {'my_rents': my_rents, 'rents_my_items': rents_my_items, 'my_current_rents': my_current_rents, 'payment_choices': Rent.PAYMENT_CHOICES})
 
-class RentCancel(DeleteView):
-    # TODO estamos removendo, mas será q a ideia é remover ou setar status pra cancelado?
-    model = Rent
+@login_required(login_url='login')
+def rent_cancel(request, pk):
+    rent = get_object_or_404(Rent, pk=pk)
 
-    def get_object(self, queryset=None):
-        obj = super(RentCancel, self).get_object()
-        if not obj.user == self.request.user:
-            raise Http404
-        return obj
-
-    success_url = reverse_lazy('rents')
+    if request.method == "POST" and request.user == rent.user:
+        rent.status = Rent.CANCELLED_STATUS
+        rent.save()
+        messages.success(request, 'Pedido cancelado')
+        return redirect('rents')
+    else:
+        raise Http404
 
 @login_required(login_url='login')
 def rent_accept(request, pk):
