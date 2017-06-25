@@ -126,3 +126,9 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+EMAIL_HOST = 'mail.florescer.xyz'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'alugueme@florescer.xyz'
+EMAIL_HOST_PASSWORD = '12m4k0dsai8f9sa0t3'
+EMAIL_USE_TLS = True

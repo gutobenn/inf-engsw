@@ -12,6 +12,7 @@ from search_views.filters import BaseFilter
 from django.views.generic import DeleteView, UpdateView
 from django.core.urlresolvers import reverse_lazy
 from django.http import Http404
+from django.core.mail import send_mail
 
 def index(request):
     items = Item.objects.filter(published_date__lte=timezone.now(), status=Item.AVAILABLE_STATUS).order_by('-published_date')[:12]
@@ -68,6 +69,7 @@ def item_detail(request, pk):
             rent.status = rent.PENDING_STATUS
             rent.request_date = timezone.now()
             rent.save()
+            send_mail('Pedido recebido', 'alguem solicitou seu item ', 'alugueme@florescer.xyz', [item.owner.email])
             messages.success(request, 'Pedido realizado com sucesso! Assim que o dono do item avaliá-lo, te enviaremos um e-mail.')
             return redirect('item_detail', pk=item.pk )
     else:
@@ -155,7 +157,7 @@ def rent_accept(request, pk):
             rent_request.status = Rent.CANCELLED_STATUS
             rent_request.save()
         # TODO avisar outros usuarios que seus pedidos foram cancelados pois outro pedido para o mesmo item ja foi aceito
-
+        send_mail('Pedido aceito', 'dono do item aceitou seu pedido ', 'alugueme@florescer.xyz', [rent.user.email])
         messages.success(request, 'Pedido aceito')
         return redirect('rents')
     else:
@@ -168,6 +170,7 @@ def rent_reject(request, pk):
     if request.method == "POST" and request.user == rent.item.owner:
         rent.status = Rent.CANCELLED_STATUS
         rent.save()
+        send_mail('Pedido rejeitado', 'dono do item rejeitou seu pedido ', 'alugueme@florescer.xyz', [rent.user.email])
         messages.success(request, 'Pedido rejeitado')
         return redirect('rents')
     else:
