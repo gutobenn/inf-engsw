@@ -12,7 +12,7 @@
             <img src="{{ rent.item.image.url }}">
           </div>
           <div class="rent_description">
-            <a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br>
+            <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
             Anunciado por {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
             Pedido {{ rent.request_date|naturaltime }}<br>
             Período: {{ rent.months }} meses<br>
@@ -55,7 +55,7 @@
             <img src="{{ rent.item.image.url }}">
           </div>
           <div class="rent_description">
-            <a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br>
+            <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
             Pedido por {{ rent.user.first_name }} {{ rent.user.last_name }}, {{ rent.request_date|naturaltime }}<br>
             Período: {{ rent.months }} meses<br>
             Forma de pagamento:
