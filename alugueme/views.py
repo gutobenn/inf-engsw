@@ -156,7 +156,8 @@ def rent_accept(request, pk):
         for rent_request in other_rent_requests:
             rent_request.status = Rent.CANCELLED_STATUS
             rent_request.save()
-        # TODO avisar outros usuarios que seus pedidos foram cancelados pois outro pedido para o mesmo item ja foi aceito
+            send_mail('Pedido rejeitado', 'seu pedido foi rejeitado pois o dono do item aceitou o pedido de outra pessoa', 'alugueme@florescer.xyz', [rent.user.email])
+
         send_mail('Pedido aceito', 'dono do item aceitou seu pedido ', 'alugueme@florescer.xyz', [rent.user.email])
         messages.success(request, 'Pedido aceito')
         return redirect('rents')
