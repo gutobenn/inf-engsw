@@ -74,7 +74,8 @@ def item_edit(request, pk):
     else:
         item_rent_requests = Rent.objects.filter(item=item, status=Rent.PENDING_STATUS)
         form = ItemForm(instance=item)
-    return render(request, 'alugueme/item_edit.html', {'form': form, 'title': 'Editar Item', 'item_rent_requests': item_rent_requests})
+        return render(request, 'alugueme/item_edit.html', {'form': form, 'title': 'Editar Item', 'item_rent_requests': item_rent_requests})
+    return render(request, 'alugueme/item_edit.html', {'form': form, 'title': 'Editar Item'})
 
 def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)

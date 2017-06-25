@@ -14,7 +14,7 @@ class Item(models.Model): # TODO generate thumbnail images?
     description = models.TextField(max_length=800, verbose_name='Descrição')
     published_date = models.DateTimeField(blank=True, null=True)
     owner = models.ForeignKey('auth.User')
-    price = models.DecimalField(max_digits=4, decimal_places=2, default=0, verbose_name='Preço')
+    price = models.DecimalField(max_digits=4, decimal_places=2, default=0, verbose_name='Preço', validators = [MinValueValidator(0)])
     image = models.ImageField(upload_to = 'images/', default = 'images/None/no-img.jpg', verbose_name='Foto')
     status = models.IntegerField(choices=STATUS_CHOICES, default=AVAILABLE_STATUS)
 
