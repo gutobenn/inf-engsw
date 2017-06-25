@@ -32,6 +32,10 @@
   display: block;
 }
 
+#boxdbusca .input-group .form-control{
+  height: 38px;
+}
+
 @media (min-width: 992px) {
   .jumbotron #boxdbusca {
     margin-top: 60px;
