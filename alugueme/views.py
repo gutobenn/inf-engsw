@@ -14,7 +14,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import Http404
 
 def index(request):
-    items = Item.objects.filter(published_date__lte=timezone.now(), status=Item.AVAILABLE_STATUS).order_by('published_date')[:12]
+    items = Item.objects.filter(published_date__lte=timezone.now(), status=Item.AVAILABLE_STATUS).order_by('-published_date')[:12]
     return render(request, 'alugueme/index.html', {'items': items})
 
 @login_required(login_url='login')
