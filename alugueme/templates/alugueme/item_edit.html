@@ -1,7 +1,7 @@
 {% extends 'alugueme/base.html' %}
 
 {% block content %}
-  <h2>{{ title }}</h2>
+  <h2>{{ title }}</h2><br>
   <form method="post" enctype="multipart/form-data" id="new-item-form">
     {% csrf_token %}
     {% for field in form %}
