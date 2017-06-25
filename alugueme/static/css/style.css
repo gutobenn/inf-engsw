@@ -58,6 +58,8 @@
 
 .item-detail #leftcolx h2 {
   margin-bottom: 20px;
+  font-family: 'PT Sans', sans-serif;
+  font-weight: 700;
 }
 
 .item-detail #rightcolx,
