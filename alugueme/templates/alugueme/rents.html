@@ -39,7 +39,7 @@
             <img src="{{ rent.item.image.url }}">
           </div>
           <div class="rent_description">
-            <a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br>
+            <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
             Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
             Data de devolução: {{ rent.return_date }}
           </div>

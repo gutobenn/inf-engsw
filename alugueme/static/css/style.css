@@ -155,6 +155,10 @@ h1, h2, h3, h4, h5, h5 {
   border-top: 1px solid #ddd;
 }
 
+.item-detail #item-detail-rentformdiv #id_months {
+  width: 60px;
+}
+
 .item-detail #item-detail-rentformdiv button[type="submit"]{
   width: 100%;
   font-size: 18px;
@@ -200,29 +204,34 @@ h1, h2, h3, h4, h5, h5 {
   border-bottom: 1px solid #e8e8e8;
 }
 
-.rents .pending_rent .rent_img,
-.rents .my_item_rent .rent_img,
-.rents .my_current_rent .rent_img {
+.rents .rent_img {
   max-width: 80px;
   float: left;
 }
 
-.rents .pending_rent .rent_img img,
-.rents .my_item_rent .rent_img img,
-.rents .my_current_rent .rent_img img {
+.rents .rent_img img {
   max-width: 100%;
 }
 
-.rents .pending_rent .rent_description,
-.rents .my_item_rent .rent_description,
-.rents .my_current_rent .rent_description {
+.rents .rent_description {
   padding-left: 15px;
   display: inline-block;
 }
 
-.rents .pending_rent .rent_buttons,
-.rents .my_item_rent .rent_buttons,
-.rents .my_current_rent .rent_buttons {
+.rents .rent_description h4 {
+  margin:0 0 5px;
+}
+
+.rents .rent_description h4 a {
+  color: #333;
+}
+
+.rents .rent_description h4 a:hover {
+  color: #999;
+  text-decoration: none;
+}
+
+.rents .rent_buttons {
   float: right;
 }
 
