@@ -45,6 +45,10 @@ def item_edit(request, pk):
     if request.user != item.owner:
         return redirect('index')
 
+    if item.status == Item.UNAVAILABLE_STATUS: # Item alugado
+        messages.error(request, 'Não é possível editar um item enquanto ele está com outra pessoa!')
+        return redirect('item_detail', pk=item.pk)
+
     if request.method == "POST":
         form = ItemForm(request.POST, request.FILES, instance=item)
         if form.is_valid():
