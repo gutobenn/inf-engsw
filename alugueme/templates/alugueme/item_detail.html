@@ -2,22 +2,29 @@
 {% load humanize %}
 {% block content %}
   <div class="row item-detail">
-    <div class="col-sm-7" id="leftcolx">
-      <h1>{{ item.title }}
+    <div class="col-sm-5" id="leftcolx">
+      <h2>{{ item.title }}
         {% if item.owner == request.user %}
         <small><a href="{% url 'item_edit' pk=item.pk %}">[Editar]</a></small>
         {% endif %}
-      </h1>
+      </h2>
       <img src="{{ item.image.url }}">
+      <br><br>
     </div>
-    <div class="col-sm-5" id="rightcolx">
+    <div class="col-sm-4" id="middlecolx">
+      <b>Descrição</b>
+      <p>{{ item.description|linebreaksbr }}</p>
+      <p><br><b>Avaliações</b></p>
+    </div>
+    <div class="col-sm-3" id="rightcolx">
       {% if item.status == item.AVAILABLE_STATUS %}
-        <p><h2>R${{ item.price }}</h2> por mês</p>
+        <div id="item-detail-price"><h2>R${{ item.price }}</h2> por mês</div>
       {% else %}
         <h3><span class="label label-danger">Indisponível</span></h3>
       {% endif %}
-      <p id="item-detail-description">{{ item.description|linebreaksbr }}</p>
-      <div id="item-detail-owner">Anunciado por {{ item.owner.first_name }} {{ item.owner.last_name }}
+      <div id="item-detail-owner">
+        <span class="glyphicon glyphicon-user"></span> {{ item.owner.first_name }} {{ item.owner.last_name }}<br>
+        <span class="glyphicon glyphicon-time"></span>
         {% if item.published_date %}
             {{ item.published_date|naturaltime }}
         {% endif %}
@@ -25,25 +32,24 @@
       {% if alreadyrequested %}
         <div id="alreadyrequested">Você já solicitou o aluguel deste item. Caso queira cancelar o pedido, acesse a página <a href="{% url 'rents' %}">Meus Aluguéis</a>.</div>
       {% elif form %}
-        <h4>Solicitar aluguel</h4>
-        <form method="post">
-          {% csrf_token %}
-          {% for field in form %}
-            <p>
-              {{ field.label_tag }}<br>
-              {{ field }}
-              {% if field.help_text %}
-                <small style="color: grey">{{ field.help_text }}</small>
-              {% endif %}
-              {% for error in field.errors %}
-                <p style="color: red">{{ error }}</p>
-              {% endfor %}
-            </p>
-          {% endfor %}
-          <button type="submit">Enviar</button>
-        </form>
+        <div id="item-detail-rentformdiv">
+          <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+              <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.help_text %}
+                  <small style="color: grey">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                  <p style="color: red">{{ error }}</p>
+                {% endfor %}
+              </p>
+            {% endfor %}
+            <button type="submit" class="btn btn-success">Solicitar aluguel</button>
+        </div>
       {% endif %}
-      <p><br><br><br>Avaliações</p>
     </div>
   </div>
 {% endblock %}

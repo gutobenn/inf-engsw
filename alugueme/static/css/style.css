@@ -52,17 +52,30 @@
   width: 100%;
 }
 
-.item-detail #leftcolx h1 {
-  margin-bottom: 15px;
+.item-detail #leftcolx h2 {
+  margin-bottom: 20px;
 }
 
-.item-detail #rightcolx {
+.item-detail #rightcolx,
+.item-detail #middlecolx {
   margin-top: 70px;
 }
 
 .item-detail #rightcolx h2 {
   display: inline;
   margin-right: 7px;
+}
+
+.item-detail #item-detail-price {
+  background: rgba(60,63,64,0.9);
+  color: #fff;
+  padding: 15px 20px 11px;
+  font-size: 15px;
+}
+
+.item-detail #item-detail-price h2{
+  font-weight: bold;
+  font-size: 25px;
 }
 
 .item-detail #item-detail-description {
@@ -72,8 +85,28 @@
 
 .item-detail #item-detail-owner {
   background: #e8e8e8;
-  padding: 8px 10px;
-  margin-bottom: 20px;
+  padding: 10px 21px 6px;
+  line-height: 26px;
+}
+
+.item-detail #item-detail-owner span {
+  margin-right: 5px;
+}
+
+.item-detail #item-detail-rentformdiv {
+  padding: 15px;
+  background: #f8f8f8;
+  border-top: 1px solid #ddd;
+}
+
+.item-detail #item-detail-rentformdiv button[type="submit"]{
+  width: 100%;
+  font-size: 18px;
+  margin-top: 8px;
+}
+
+.item-detail #item-detail-rentformdiv label{
+  font-weight: normal;
 }
 
 .item-detail #alreadyrequested {
@@ -142,4 +175,8 @@
   content: "";
   display: table;
   clear: both;
+}
+
+button, input, select, textarea {
+  padding: 5px;
 }
