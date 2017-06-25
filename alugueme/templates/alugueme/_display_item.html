@@ -1,18 +1,19 @@
-<div class="col-sm-3 item">
+<div class="col-sm-3 col-md-2 item">
   <div class="thumbnail">
     <a href="{% url 'item_detail' pk=item.pk %}"><img src="{{ item.image.url }}"></a>
-    <div class="caption">
-      <h4><a href="{% url 'item_detail' pk=item.pk %}">{{ item.title }}</a>
-        {% if item.status == item.AVAILABLE_STATUS %}
-          R${{ item.price }}
-        {% else %}
-          Indisponível
-        {% endif %}
-        </h4>
-      <p>{{ item.description|linebreaksbr|truncatechars:200 }}</p>
-      {% if item.owner == request.user %}
-        <p><br><a href="{%url 'item_edit' pk=item.pk %}">Editar</a></p>
+    <div class="item-price">
+      {% if item.status == item.AVAILABLE_STATUS %}
+        R$ {{ item.price }}
+      {% else %}
+        Indisponível
       {% endif %}
+    </div>
+    <div class="caption">
+      <h4><a href="{% url 'item_detail' pk=item.pk %}">{{ item.title }}</a></h4>
+      <p>{{ item.description|linebreaksbr|truncatechars:200 }}</p>
+      <!--{% if item.owner == request.user %}
+        <p><br><a href="{%url 'item_edit' pk=item.pk %}">Editar</a></p>
+      {% endif %}-->
     </div>
   </div>
 </div>

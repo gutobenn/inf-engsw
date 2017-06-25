@@ -1,3 +1,14 @@
+
+button, input, select, textarea {
+  padding: 5px;
+}
+
+h1, h2, h3, h4, h5, h5 {
+  font-family: 'PT Sans', sans-serif;
+  font-weight: 700;
+}
+
+
 /* Navbar */
 .navbar-inverse {
   background: #222222;
@@ -45,7 +56,38 @@
 /* List of items */
 .items-list .item {
   font-size: 13px;
-  margin-bottom: 20px;
+  padding: 0 5px;
+}
+
+.items-list .item .thumbnail {
+  border: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.items-list .item .thumbnail .item-price{
+  background: rgba(60,63,64,0.9);
+  color: #fff;
+  font-weight: bold;
+  position: absolute;
+  top: 4px;
+  right: 9px;
+  padding: 4px 8px;
+  font-family: 'PT Sans', sans-serif;
+}
+
+.items-list .item .thumbnail .caption {
+  background: #FAFAFA;
+  padding: 2px 9px;
+}
+
+.items-list .item .thumbnail .caption a {
+  color: #333;
+}
+
+.items-list .item .thumbnail .caption a:hover {
+  color: #999;
+  text-decoration: none;
 }
 
 .item-detail {
@@ -58,13 +100,15 @@
 
 .item-detail #leftcolx h2 {
   margin-bottom: 20px;
-  font-family: 'PT Sans', sans-serif;
   font-weight: 700;
 }
 
-.item-detail #rightcolx,
-.item-detail #middlecolx {
+.item-detail #rightcolx {
   margin-top: 70px;
+}
+
+.item-detail #middlecolx {
+  margin-top: 75px;
 }
 
 .item-detail #rightcolx h2 {
@@ -181,8 +225,4 @@
   content: "";
   display: table;
   clear: both;
-}
-
-button, input, select, textarea {
-  padding: 5px;
 }
