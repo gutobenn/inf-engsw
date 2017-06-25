@@ -1,0 +1,6 @@
+{% block subject %}Pedido cancelado! {{item}}{% endblock %}
+{% block html %}
+  Olá {{first_name}},<br><br>
+  O item {{item}} foi editado pelo dono e, por isso, todos os pedidos foram cancelados. Caso você ainda esteja interessado no item, faça um novo pedido.
+
+{% endblock %}

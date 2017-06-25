@@ -56,11 +56,25 @@ def item_edit(request, pk):
             item.owner = request.user
             item.published_date = timezone.now()
             item.save()
+            # Cancel rent requests for item
+            other_rent_requests = Rent.objects.filter(item=item, status=Rent.PENDING_STATUS)
+            for rent_request in other_rent_requests:
+                rent_request.status = Rent.CANCELLED_STATUS
+                rent_request.save()
+                send_templated_mail(
+                    template_name='rent_canceled_item_edited',
+                    from_email='alugueme@florescer.xyz',
+                    recipient_list=[rent_request.user.email],
+                    context={
+                        'item':rent_request.item,
+                        'first_name':rent_request.user.first_name,
+                })
             messages.success(request, 'Item alterado com sucesso!')
             return redirect('item_detail', pk=item.pk)
     else:
+        item_rent_requests = Rent.objects.filter(item=item, status=Rent.PENDING_STATUS)
         form = ItemForm(instance=item)
-    return render(request, 'alugueme/item_edit.html', {'form': form, 'title': 'Editar Item'})
+    return render(request, 'alugueme/item_edit.html', {'form': form, 'title': 'Editar Item', 'item_rent_requests': item_rent_requests})
 
 def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
@@ -171,10 +185,10 @@ def rent_accept(request, pk):
             send_templated_mail(
                 template_name='rent_canceled',
                 from_email='alugueme@florescer.xyz',
-                recipient_list=[rent.user.email],
+                recipient_list=[rent_request.user.email],
                 context={
-                    'item':rent.item,
-                    'first_name':rent.user.first_name,
+                    'item':rent_request.item,
+                    'first_name':rent_request.user.first_name,
             })
 
         send_templated_mail(
