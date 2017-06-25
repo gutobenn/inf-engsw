@@ -1,8 +1,7 @@
 {% block subject %}Novo pedido para {{item}}{% endblock %}
 {% block html %}
-  Olá {{first_name}},
-
+  Olá {{first_name}},<br><br>
   {{rent_user}} te enviou um pedido para o item {{item}}. Para conferir a proposta,
-  acesse <a href="{% url 'rents' %}">Meus aluguéis</a>
+  acesse <a href="http://localhost:8000{% url 'rents' %}">Meus aluguéis</a>
 
 {% endblock %}
