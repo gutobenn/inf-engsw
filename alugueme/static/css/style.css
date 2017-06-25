@@ -122,6 +122,10 @@ h1, h2, h3, h4, h5, h5 {
   margin-right: 7px;
 }
 
+.item-detail #rightcolx h3 {
+  margin-top: 0;
+}
+
 .item-detail #item-detail-price {
   background: rgba(60,63,64,0.9);
   color: #fff;
