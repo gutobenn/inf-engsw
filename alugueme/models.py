@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-class Item(models.Model): # TODO generate thumbnail images?
+class Item(models.Model):
     AVAILABLE_STATUS = 1
     UNAVAILABLE_STATUS = 2
     STATUS_CHOICES = (
@@ -36,7 +36,7 @@ class Rent(models.Model):
         (MONEY, 'Dinheiro'),
         (TRADE, 'Troca'),
     )
-    user = models.ForeignKey(User,on_delete=models.CASCADE) # TODO conferir se ta correto usar foreignkey. outra possibilidade é modelar pedido de aluguel em uma classe diferente.
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     item = models.ForeignKey(Item,on_delete=models.CASCADE)
     status = models.IntegerField(choices=STATUS_CHOICES, default=PENDING_STATUS)
     request_date = models.DateTimeField()
