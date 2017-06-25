@@ -220,6 +220,7 @@ h1, h2, h3, h4, h5, h5 {
 
 .rents .rent_description h4 {
   margin:0 0 5px;
+  font-size: 17px;
 }
 
 .rents .rent_description h4 a {
