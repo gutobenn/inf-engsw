@@ -1,0 +1,7 @@
+{% block subject %}Pedido cancelado! {{item}}{% endblock %}
+{% block html %}
+  Olá {{first_name}},
+
+  O item {{item}} foi alugado para outra pessoa. Por isso, seu pedido foi cancelado.
+
+{% endblock %}

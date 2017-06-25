@@ -1,0 +1,7 @@
+{% block subject %}Aluguel rejeitado! {{item}}{% endblock %}
+{% block html %}
+  Olá {{first_name}},
+
+  {{item_owner}} rejeitou seu pedido de aluguel para o item {{item}}.
+
+{% endblock %}

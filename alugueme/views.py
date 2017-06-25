@@ -12,7 +12,7 @@ from search_views.filters import BaseFilter
 from django.views.generic import DeleteView, UpdateView
 from django.core.urlresolvers import reverse_lazy
 from django.http import Http404
-from django.core.mail import send_mail
+from templated_email import send_templated_mail
 
 def index(request):
     items = Item.objects.filter(published_date__lte=timezone.now(), status=Item.AVAILABLE_STATUS).order_by('-published_date')[:12]
@@ -69,7 +69,15 @@ def item_detail(request, pk):
             rent.status = rent.PENDING_STATUS
             rent.request_date = timezone.now()
             rent.save()
-            send_mail('Pedido recebido', 'alguem solicitou seu item ', 'alugueme@florescer.xyz', [item.owner.email])
+            send_templated_mail(
+                template_name='rent',
+                from_email='alugueme@florescer.xyz',
+                recipient_list=[item.owner.email],
+                context={
+                    'item':item,
+                    'first_name':item.owner.first_name,
+                    'rent_user':request.user.first_name
+            })
             messages.success(request, 'Pedido realizado com sucesso! Assim que o dono do item avaliá-lo, te enviaremos um e-mail.')
             return redirect('item_detail', pk=item.pk )
     else:
@@ -156,9 +164,24 @@ def rent_accept(request, pk):
         for rent_request in other_rent_requests:
             rent_request.status = Rent.CANCELLED_STATUS
             rent_request.save()
-            send_mail('Pedido rejeitado', 'seu pedido foi rejeitado pois o dono do item aceitou o pedido de outra pessoa', 'alugueme@florescer.xyz', [rent.user.email])
+            send_templated_mail(
+                template_name='rent_canceled',
+                from_email='alugueme@florescer.xyz',
+                recipient_list=[rent.user.email],
+                context={
+                    'item':rent.item,
+                    'first_name':rent.user.first_name,
+            })
 
-        send_mail('Pedido aceito', 'dono do item aceitou seu pedido ', 'alugueme@florescer.xyz', [rent.user.email])
+        send_templated_mail(
+            template_name='rent_accepted',
+            from_email='alugueme@florescer.xyz',
+            recipient_list=[rent.user.email],
+            context={
+                'item':rent.item,
+                'first_name':rent.user.first_name,
+                'item_owner':request.user.first_name
+        })
         messages.success(request, 'Pedido aceito')
         return redirect('rents')
     else:
@@ -171,7 +194,15 @@ def rent_reject(request, pk):
     if request.method == "POST" and request.user == rent.item.owner:
         rent.status = Rent.CANCELLED_STATUS
         rent.save()
-        send_mail('Pedido rejeitado', 'dono do item rejeitou seu pedido ', 'alugueme@florescer.xyz', [rent.user.email])
+        send_templated_mail(
+            template_name='rent_rejected',
+            from_email='alugueme@florescer.xyz',
+            recipient_list=[rent.user.email],
+            context={
+                'item':rent.item,
+                'first_name':rent.user.first_name,
+                'item_owner':request.user.first_name
+        })
         messages.success(request, 'Pedido rejeitado')
         return redirect('rents')
     else:

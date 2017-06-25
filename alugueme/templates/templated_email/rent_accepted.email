@@ -1,0 +1,7 @@
+{% block subject %}Aluguel aceito! {{item}}{% endblock %}
+{% block html %}
+  Olá {{first_name}},
+
+  {{item_owner}} aceitou seu pedido de aluguel para o item {{item}}. Agora é só combinar a troca! :)
+
+{% endblock %}

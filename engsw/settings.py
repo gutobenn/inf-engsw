@@ -132,3 +132,5 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'alugueme@florescer.xyz'
 EMAIL_HOST_PASSWORD = '12m4k0dsai8f9sa0t3'
 EMAIL_USE_TLS = True
+
+TEMPLATED_EMAIL_BACKEND = 'templated_email.backends.vanilla_django.TemplateBackend'
