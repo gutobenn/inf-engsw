@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.utils import timezone
-from django.db.models import Q
-from alugueme.forms import SignUpForm, ItemForm, SearchItemForm, RentForm
-from alugueme.models import Item, Rent
-from search_views.views import SearchListView
-from search_views.filters import BaseFilter
-from django.views.generic import DeleteView, UpdateView
 from django.core.urlresolvers import reverse_lazy
+from django.db.models import Q
 from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
+from django.views.generic import DeleteView, UpdateView
+from search_views.filters import BaseFilter
+from search_views.views import SearchListView
 from templated_email import send_templated_mail
+
+from alugueme.forms import ItemForm, RentForm, SearchItemForm, SignUpForm
+from alugueme.models import Item, Rent
 
 
 def index(request):
