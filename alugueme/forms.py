@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from .models import Item, Rent
+from .models import Item, Rent, User
 
 def validate_email(value):
     if not value.endswith('@inf.ufrgs.br'):

@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import models as auth_models
 from django.core.validators import MinValueValidator, MaxValueValidator
+
+class User(auth_models.User):
+    pass
 
 class Item(models.Model):
     AVAILABLE_STATUS = 1
