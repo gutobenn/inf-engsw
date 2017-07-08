@@ -24,6 +24,8 @@ class SignUpForm(UserCreationForm):
     phone_number = forms.RegexField(
         max_length=11,
         regex=r'^\d{10,11}$',
+        required=False,
+        help_text='Opcional.',
         error_messages={
             'required':
             "Número de telefone precisa estar no formato: 'DDD999999999'. Até 11 digitos."
