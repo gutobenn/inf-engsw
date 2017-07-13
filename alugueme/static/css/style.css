@@ -24,6 +24,11 @@ h1, h2, h3, h4, h5, h5 {
   background: #090909;
 }
 
+.navbar-brand {
+  font-family: "Bree Serif";
+  font-size: 25px;
+}
+
 /* Home */
 
 .jumbotron {
