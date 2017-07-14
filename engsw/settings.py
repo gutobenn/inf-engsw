@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'alugueme',
+    'star_ratings',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -134,3 +135,5 @@ EMAIL_HOST_PASSWORD = '12m4k0dsai8f9sa0t3'
 EMAIL_USE_TLS = True
 
 TEMPLATED_EMAIL_BACKEND = 'templated_email.backends.vanilla_django.TemplateBackend'
+
+STAR_RATINGS_RERATE = False
