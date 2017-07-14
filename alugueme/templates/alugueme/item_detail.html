@@ -1,6 +1,10 @@
 {% extends 'alugueme/base.html' %}
 {% load humanize %}
+{% load static %}
+{% load ratings %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
   <div class="row item-detail">
     <div class="col-sm-5" id="leftcolx">
       <h2>{{ item.title }}
@@ -16,6 +20,7 @@
       <p>{{ item.description|linebreaksbr }}</p>
       <hr />
       <b>Avaliações</b>
+      <p>{% ratings item %}</p> <!-- TODO Tirar prints que aparecem na página do item por causa do ratings--> 
     </div>
     <div class="col-sm-3" id="rightcolx">
       {% if item.status == item.AVAILABLE_STATUS %}
