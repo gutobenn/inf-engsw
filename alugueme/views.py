@@ -187,12 +187,18 @@ class ItemView(SearchListView):
 
 @login_required(login_url='login')
 def rents(request):
-    my_rents = Rent.objects.filter(
+    my_rent_requests = Rent.objects.filter(
         user=request.user, status=Rent.PENDING_STATUS)
     my_current_rents = Rent.objects.filter(
         user=request.user, status=Rent.CONFIRMED_STATUS)
-    rents_my_items = Rent.objects.filter(
+    my_past_rents = Rent.objects.filter(
+        user=request.user, status=Rent.ENDED_STATUS)
+    my_items_rent_requests = Rent.objects.filter(
         item__owner=request.user, status=Rent.PENDING_STATUS)
+    my_items_current_rents = Rent.objects.filter(
+        item__owner=request.user, status=Rent.CONFIRMED_STATUS)
+    my_items_past_rents = Rent.objects.filter(
+        item__owner=request.user, status=Rent.ENDED_STATUS)
 
     for rent in my_current_rents:
         rent.return_date = rent.confirmation_date
@@ -201,12 +207,14 @@ def rents(request):
         # Além disso, o relative delta leva em conta a quantida de dias do mes para calcular. É assim mesmo que queremos?
 
     return render(request, 'alugueme/rents.html', {
-        'my_rents': my_rents,
-        'rents_my_items': rents_my_items,
+        'my_rent_requests': my_rent_requests,
         'my_current_rents': my_current_rents,
+        'my_past_rents': my_past_rents,
+        'my_items_rent_requests': my_items_rent_requests,
+        'my_items_current_rents': my_items_current_rents,
+        'my_items_past_rents': my_items_past_rents,
         'payment_choices': Rent.PAYMENT_CHOICES
     })
-
 
 @login_required(login_url='login')
 def rent_cancel(request, pk):

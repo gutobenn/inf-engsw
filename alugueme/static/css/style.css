@@ -205,11 +205,14 @@ h1, h2, h3, h4, h5, h5 {
 }
 
 /* Rents */
+.rents {
+  margin-top: 40px;
+}
 .rents .pending_rent,
 .rents .my_item_rent,
 .rents .my_current_rent {
   background: #fafafa;
-  padding: 10px;
+  padding: 10px 0;
   border-bottom: 1px solid #e8e8e8;
 }
 
@@ -243,6 +246,10 @@ h1, h2, h3, h4, h5, h5 {
 
 .rents .rent_buttons {
   float: right;
+}
+
+.rents .panel-body {
+  background-color: #fafafa;
 }
 
 /* Extra */
