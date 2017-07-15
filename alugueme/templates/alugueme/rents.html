@@ -195,6 +195,11 @@
                         {{ payment_choices.1.1 }}
                       {% endif %}
                   </div>
+                    <div class="rent_buttons2">
+                      <form action="{% url 'rent_terminate' pk=rent.pk %}" method="post">{% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-xs">Finalizar</button>
+                      </form>
+                    </div>
                 </div>
               {% endfor %}
             </div>

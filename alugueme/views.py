@@ -234,6 +234,17 @@ def rent_cancel(request, pk):
     else:
         raise Http404
 
+@login_required(login_url='login')
+def rent_terminate(request, pk):
+    rent = get_object_or_404(Rent, pk=pk)
+
+    if request.method == "POST" and get_user(request) == rent.item.owner:
+        rent.status = Rent.DELAYED_STATUS
+        rent.save()
+        messages.success(request, 'Pedido cancelado')
+        return redirect('rents')
+    else:
+        raise Http404
 
 @login_required(login_url='login')
 def rent_accept(request, pk):
