@@ -1,4 +1,15 @@
+amqp==1.4.9
+anyjson==0.3.3
+billiard==3.3.0.23
+celery==3.1.18
 Django==1.11
+django-render-block==0.5
 django-search-views==0.3.7
-Pillow==4.1.1
 django-templated-email==2.2.0
+kombu==3.0.37
+olefile==0.44
+Pillow==4.1.1
+pkg-resources==0.0.0
+pytz==2017.2
+redis==2.10.3
+six==1.10.0

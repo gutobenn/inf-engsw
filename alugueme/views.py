@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
@@ -11,6 +11,7 @@ from django.views.generic import DeleteView, UpdateView
 from search_views.filters import BaseFilter
 from search_views.views import SearchListView
 from templated_email import send_templated_mail
+from datetime import datetime
 
 from alugueme.forms import ItemForm, RentForm, SearchItemForm, SignUpForm
 from alugueme.models import Item, Rent
@@ -22,10 +23,26 @@ def index(request):
         status=Item.AVAILABLE_STATUS).order_by('-published_date')[:12]
     return render(request, 'alugueme/index.html', {'items': items})
 
+def check_due_date():
+    rents = Rent.objects.filter(
+        due_date__lte=timezone.now(),
+        status=Rent.CONFIRMED_STATUS)
+    for rent in rents:
+        rent.status = Rent.DELAYED_STATUS
+        send_templated_mail(
+            template_name='rent_due',
+            from_email='alugueme@florescer.xyz',
+            recipient_list=[rent.user.email],
+            context={
+                'item': rent.item,
+                'first_name': rent.user.first_name,
+            })
+    #TODO: forbid rent.user to make new rents
+
 
 @login_required(login_url='login')
 def items_my(request):
-    items = Item.objects.filter(owner=request.user).order_by('published_date')
+    items = Item.objects.filter(owner=get_user(request)).order_by('published_date')
     return render(request, 'alugueme/items_my.html', {'items': items})
 
 
@@ -35,7 +52,7 @@ def item_new(request):
         form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
             item = form.save(commit=False)
-            item.owner = request.user
+            item.owner = get_user(request)
             item.published_date = timezone.now()
             item.save()
             messages.success(request, 'Item cadastrado com sucesso!')
@@ -51,7 +68,7 @@ def item_new(request):
 def item_edit(request, pk):
     item = get_object_or_404(Item, pk=pk)
 
-    if request.user != item.owner:
+    if get_user(request) != item.owner:
         return redirect('index')
 
     if item.status == Item.UNAVAILABLE_STATUS:  # Item alugado
@@ -65,7 +82,7 @@ def item_edit(request, pk):
         form = ItemForm(request.POST, request.FILES, instance=item)
         if form.is_valid():
             item = form.save(commit=False)
-            item.owner = request.user
+            item.owner = get_user(request)
             item.published_date = timezone.now()
             item.save()
             # Cancel rent requests for item
@@ -77,7 +94,7 @@ def item_edit(request, pk):
                 send_templated_mail(
                     template_name='rent_canceled_item_edited',
                     from_email='alugueme@florescer.xyz',
-                    recipient_list=[rent_request.user.email],
+                    recipient_list=[rent_get_user(request).email],
                     context={
                         'item': rent_request.item,
                         'first_name': rent_request.user.first_name,
@@ -104,7 +121,7 @@ def item_detail(request, pk):
         form = RentForm(request.POST)
         if form.is_valid():
             rent = form.save(commit=False)
-            rent.user = request.user
+            rent.user = get_user(request)
             rent.item = item
             rent.status = rent.PENDING_STATUS
             rent.request_date = timezone.now()
@@ -126,12 +143,12 @@ def item_detail(request, pk):
     else:
         if request.user.is_authenticated:
             if Rent.objects.filter(
-                    user=request.user, item=item,
+                    user=get_user(request), item=item,
                     status=Rent.PENDING_STATUS).exists():
                 return render(request, 'alugueme/item_detail.html',
                               {'item': item,
                                'alreadyrequested': True})
-            elif item.status == item.AVAILABLE_STATUS and item.owner != request.user:
+            elif item.status == item.AVAILABLE_STATUS and item.owner != get_user(request):
                 form = RentForm()
                 return render(request, 'alugueme/item_detail.html',
                               {'item': item,
@@ -188,20 +205,17 @@ class ItemView(SearchListView):
 @login_required(login_url='login')
 def rents(request):
     my_rents = Rent.objects.filter(
-        user=request.user, status=Rent.PENDING_STATUS)
+        user=get_user(request), status=Rent.PENDING_STATUS)
+    my_delayed_rents = Rent.objects.filter(
+        user=get_user(request), status=Rent.DELAYED_STATUS)
     my_current_rents = Rent.objects.filter(
-        user=request.user, status=Rent.CONFIRMED_STATUS)
+        user=get_user(request), status=Rent.CONFIRMED_STATUS)
     rents_my_items = Rent.objects.filter(
-        item__owner=request.user, status=Rent.PENDING_STATUS)
-
-    for rent in my_current_rents:
-        rent.return_date = rent.confirmation_date
-        # TODO set correct return date
-        # TODO fazer assim ou criar um campo para data de devolucao no model?
-        # Além disso, o relative delta leva em conta a quantida de dias do mes para calcular. É assim mesmo que queremos?
+        item__owner=get_user(request), status=Rent.PENDING_STATUS)
 
     return render(request, 'alugueme/rents.html', {
         'my_rents': my_rents,
+        'my_delayed_rents': my_delayed_rents,
         'rents_my_items': rents_my_items,
         'my_current_rents': my_current_rents,
         'payment_choices': Rent.PAYMENT_CHOICES
@@ -212,7 +226,7 @@ def rents(request):
 def rent_cancel(request, pk):
     rent = get_object_or_404(Rent, pk=pk)
 
-    if request.method == "POST" and request.user == rent.user:
+    if request.method == "POST" and get_user(request) == rent.user:
         rent.status = Rent.CANCELLED_STATUS
         rent.save()
         messages.success(request, 'Pedido cancelado')
@@ -225,10 +239,11 @@ def rent_cancel(request, pk):
 def rent_accept(request, pk):
     rent = get_object_or_404(Rent, pk=pk)
 
-    if request.method == "POST" and request.user == rent.item.owner:
+    if request.method == "POST" and get_user(request) == rent.item.owner:
         rent.status = Rent.CONFIRMED_STATUS
-        rent.confirmation_date = timezone.now(
-        )  # TODO usar date.today() ? E se a troca não for feita no dia? a data de devolucao vai ficar errada
+        rent.confirmation_date = timezone.now()  # TODO usar date.today() ? E se a troca não for feita no dia? a data de devolucao vai ficar errada
+        #rent.due_date = (rent.cofirmation_date + datetime.timedelta(months=rent.months)).date()
+        rent.due_date = timezone.now()
         rent.item.status = Item.UNAVAILABLE_STATUS
         rent.item.save()
         rent.save()
@@ -267,7 +282,7 @@ def rent_accept(request, pk):
 def rent_reject(request, pk):
     rent = get_object_or_404(Rent, pk=pk)
 
-    if request.method == "POST" and request.user == rent.item.owner:
+    if request.method == "POST" and get_user(request) == rent.item.owner:
         rent.status = Rent.CANCELLED_STATUS
         rent.save()
         send_templated_mail(

@@ -1,0 +1,7 @@
+{% block subject %}Chegou a hora de devolver {{item}}{% endblock %}
+{% block html %}
+  Olá {{first_name}},<br><br>
+  Você tem um item com prazo de entrega vencendo hoje.<br>Lembre que enquanto não normalizar a situação você não pode alugar novos itens.<br><br>Sugerimos que você entre em contato com o dono do item e combine a devolução. Para conferir os detalhes,
+  acesse <a href="http://localhost:8000{% url 'rents' %}">Meus aluguéis</a>
+
+{% endblock %}

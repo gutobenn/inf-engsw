@@ -49,7 +49,7 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a class="accordion-toggle" data-toggle="collapse" href="#collapseTwo">
-              Itens que estão com você
+              Itens que estão com você (no prazo)
             </a>
           </h4>
         </div>
@@ -63,7 +63,33 @@
                 <div class="rent_description">
                   <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
                   Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
-                  Data de devolução: {{ rent.return_date }}
+                  Data de devolução: {{ rent.due_date }}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+          <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" href="#collapseSeven">
+              Itens que estão com você (prazo esgotado)
+            </a>
+          </h4>
+        </div>
+        <div id="collapseSeven" class="panel-collapse collapse">
+          <div class="panel-body">
+            {% for rent in my_delayed_rents %}
+              <div class="my_delayed_rent clearfix">
+                <div class="rent_img">
+                  <img src="{{ rent.item.image.url }}">
+                </div>
+                <div class="rent_description">
+                  <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
+                  Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
+                  Data de devolução: {{ rent.due_date }}
                 </div>
               </div>
             {% endfor %}
