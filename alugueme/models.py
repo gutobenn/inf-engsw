@@ -22,12 +22,13 @@ def update_user_profile(sender, instance, created, **kwargs):
 class Item(models.Model):
     AVAILABLE_STATUS = 1
     UNAVAILABLE_STATUS = 2
+
     STATUS_CHOICES = ((AVAILABLE_STATUS, 'Disponível'), (UNAVAILABLE_STATUS,
                                                          'Indisponível'), )
     title = models.CharField(max_length=60, verbose_name='Título')
     description = models.TextField(max_length=800, verbose_name='Descrição')
     published_date = models.DateTimeField(blank=True, null=True)
-    owner = models.ForeignKey('auth.User')
+    owner = models.ForeignKey(User)
     price = models.DecimalField(
         max_digits=4,
         decimal_places=2,
@@ -49,12 +50,13 @@ class Rent(models.Model):
     PENDING_STATUS = 1
     CANCELLED_STATUS = 2
     CONFIRMED_STATUS = 3
-    ENDED_STATUS = 4;
+    ENDED_STATUS = 4
+    DELAYED_STATUS = 5
     STATUS_CHOICES = ((PENDING_STATUS, 'Pendente'),
                       (CANCELLED_STATUS, 'Cancelado'),
                       (CONFIRMED_STATUS, 'Confirmado'),
-                      (ENDED_STATUS, 'Encerrado'), )
-
+                      (ENDED_STATUS, 'Encerrado'),
+                      (DELAYED_STATUS, 'Atrasado'))
     MONEY = 1
     TRADE = 2
     PAYMENT_CHOICES = ((MONEY, 'Dinheiro'), (TRADE, 'Troca'), )
@@ -64,6 +66,7 @@ class Rent(models.Model):
         choices=STATUS_CHOICES, default=PENDING_STATUS)
     request_date = models.DateTimeField()
     confirmation_date = models.DateTimeField(blank=True, null=True)
+    due_date = models.DateTimeField(blank=True, null=True)
     months = models.PositiveIntegerField(
         verbose_name='Meses',
         validators=[MinValueValidator(1),
