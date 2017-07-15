@@ -16,7 +16,7 @@ from search_views.views import SearchListView
 from templated_email import send_templated_mail
 
 from alugueme.forms import ItemForm, RentForm, SearchItemForm, SignUpForm
-from alugueme.models import Item, Rent
+from alugueme.models import Item, Rent, Profile
 
 
 def index(request):
@@ -62,9 +62,14 @@ def item_new(request):
             return redirect('item_detail', pk=item.pk)
     else:
         form = ItemForm()
-    return render(request, 'alugueme/item_edit.html',
-                  {'form': form,
-                   'title': 'Cadastrar Item'})
+        if Item.objects.filter(owner=get_user(request)).count() == Profile.MAXITEMS:
+            return render(request, 'alugueme/item_edit.html',
+                          {'alreadyreachedlimit': True,
+                           'title': 'Cadastrar Item'})
+        else:
+            return render(request, 'alugueme/item_edit.html',
+                          {'form': form,
+                           'title': 'Cadastrar Item'})
 
 
 @login_required(login_url='login')
@@ -145,12 +150,22 @@ def item_detail(request, pk):
             return redirect('item_detail', pk=item.pk)
     else:
         if request.user.is_authenticated:
+            totalrents = Rent.objects.filter(
+                  user=get_user(request),
+                  status=Rent.PENDING_STATUS).count() + Rent.objects.filter(
+                  user=get_user(request),
+                  status=Rent.CONFIRMED_STATUS).count()
+
             if Rent.objects.filter(
                     user=get_user(request), item=item,
                     status=Rent.PENDING_STATUS).exists():
                 return render(request, 'alugueme/item_detail.html',
                               {'item': item,
                                'alreadyrequested': True})
+            if totalrents == Profile.MAXRENTS:
+                return render(request, 'alugueme/item_detail.html',
+                             {'item': item,
+                              'alreadyreachedlimit': True})
             elif item.status == item.AVAILABLE_STATUS and item.owner != get_user(request):
                 form = RentForm()
                 return render(request, 'alugueme/item_detail.html',

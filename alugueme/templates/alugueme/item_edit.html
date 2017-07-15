@@ -10,20 +10,29 @@
       Atenção! Há {{ item_rent_requests.count }} pedidos para esse item. Caso você o edite, todos os pedidos serão cancelados.
     </div>
   {% endif %}
-  <form method="post" enctype="multipart/form-data" id="new-item-form">
-    {% csrf_token %}
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
-    {% endfor %}
-    <button type="submit">{{ title }}</button>
-  </form>
+  {% if alreadyreachedlimit %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+      Você já atingiu o limite de itens cadastrados!
+    </div>
+  {% else %}
+    <form method="post" enctype="multipart/form-data" id="new-item-form">
+      {% csrf_token %}
+      {% for field in form %}
+        <p>
+          {{ field.label_tag }}<br>
+          {{ field }}
+          {% if field.help_text %}
+            <small style="color: grey">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+          {% endfor %}
+        </p>
+      {% endfor %}
+      <button type="submit">{{ title }}</button>
+    </form>
+  {% endif %}
 {% endblock %}

@@ -13,6 +13,9 @@ class Profile(models.Model):
     course = models.CharField(max_length=40, blank=True)
     phone_number = models.CharField(max_length=12, blank=True)
 
+    MAXITEMS = 10
+    MAXRENTS = 3
+
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -25,6 +28,7 @@ class Item(models.Model):
 
     STATUS_CHOICES = ((AVAILABLE_STATUS, 'Disponível'), (UNAVAILABLE_STATUS,
                                                          'Indisponível'), )
+
     title = models.CharField(max_length=60, verbose_name='Título')
     description = models.TextField(max_length=800, verbose_name='Descrição')
     published_date = models.DateTimeField(blank=True, null=True)

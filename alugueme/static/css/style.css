@@ -183,6 +183,11 @@ h1, h2, h3, h4, h5, h5 {
   padding: 15px 10px;
 }
 
+.item-detail #alreadyreachedlimit {
+  background: #F2DEDE;
+  padding: 15px 10px;
+}
+
 /* New Item */
 #new-item-form input[type='number'] {
     -moz-appearance:textfield;

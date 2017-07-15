@@ -37,6 +37,8 @@
       </div>
       {% if alreadyrequested %}
         <div id="alreadyrequested">Você já solicitou o aluguel deste item. Caso queira cancelar o pedido, acesse a página <a href="{% url 'rents' %}">Meus Aluguéis</a>.</div>
+      {% elif alreadyreachedlimit %}
+        <div id="alreadyreachedlimit">Você já atingiu o número máximo de pedidos e itens alugados!</div>
       {% elif form %}
         <div id="item-detail-rentformdiv">
           <form method="post">
