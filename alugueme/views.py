@@ -80,7 +80,7 @@ def item_new(request):
 @login_required(login_url='login')
 def item_act_deact(request, pk):
     item = get_object_or_404(Item, pk=pk)
-    
+
     if item.status == Item.INACTIVE_STATUS:
         # check if user has not reached item limit
         owner = Profile.objects.get(user=item.owner)
@@ -120,9 +120,9 @@ def item_act_deact(request, pk):
                         'first_name': rent_request.user.first_name,
                     })
             messages.success(request, 'Item desativado com sucesso! Você pode anunciar outro item agora.')
-    
+
     return redirect('items_my')
-    
+
 
 @login_required(login_url='login')
 def item_edit(request, pk):
@@ -307,7 +307,7 @@ def rents(request):
         'my_items_past_rents': my_items_past_rents,
         'my_delayed_rents': my_delayed_rents,
         'payment_choices': Rent.PAYMENT_CHOICES,
-        'user':user_profile
+        'user_profile':user_profile
     })
 
 @login_required(login_url='login')
@@ -356,8 +356,6 @@ def rent_accept(request, pk):
                 rent_user_profile.rents += 1
                 rent.status = Rent.CONFIRMED_STATUS
                 rent.confirmation_date = timezone.now()
-                # TODO usar date.today() ? E se a troca não for feita no dia? a data de devolucao vai ficar errada
-                # Lucas: Acho que não tem o que fazer. A alternativa seria o usuário confirmar a data manualmente mas acho que é uma solução pior
 
                 rent.due_date = rent.confirmation_date + timedelta(days=rent.months*30) # timedelta only works with day
                 #rent.due_date = timezone.now() # <- test case for delayed item
@@ -418,13 +416,13 @@ def rent_terminate(request, pk):
         rent.save()
         rent_user_profile.save()
         rent.item.save()
-        
+
         # check if rent_user has any other delayed item
         if Rent.objects.filter(due_date__leq=timezone.now(), user=rent.user).count() == 0:
             rent_user_profile.can_rent = True
-        else: 
+        else:
             rent_user_profile.can_rent = False
-        
+
         messages.success(request, 'Aluguel finalizado com sucesso. Seu item está disponível novamente')
         return redirect('rents')
     else:

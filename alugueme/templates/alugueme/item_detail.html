@@ -20,7 +20,7 @@
       <p>{{ item.description|linebreaksbr }}</p>
       <hr />
       <b>Avaliações</b>
-      <p>{% ratings item %}</p> <!-- TODO Tirar prints que aparecem na página do item por causa do ratings-->
+      <p>{% ratings item %}</p>
     </div>
     <div class="col-sm-3" id="rightcolx">
       {% if item.status == item.AVAILABLE_STATUS %}
