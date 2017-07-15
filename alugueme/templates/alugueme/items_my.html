@@ -1,12 +1,17 @@
 {% extends 'alugueme/base.html' %}
 {% block content %}
   <h2>Meus Itens</h2>
-
+  {% if owner.items == 1%}
+    <h3>Você possui {{ owner.items }} anúncio ativo dos {{ owner.c_max_items }} permitidos</h3> 
+  {% else %}
+    <h3>Você possui {{ owner.items }} anúncios ativos dos {{ owner.c_max_items }} permitidos</h3>
+  {% endif %}
+  
   <p><br><a href="{% url 'item_new' %}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Cadastrar Item</a><br><br></p>
 
   <div class="row items-list">
     {% for item in items %}
-      {% include 'alugueme/_display_item.html' %}
+      {% include 'alugueme/_display_item_private.html' %}
     {% endfor %}
   </div>
 {% endblock %}
