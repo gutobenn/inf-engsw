@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+    <h2>{{ user.get_full_name }}</h2>
     <p>Email: {{ user.email }}</p>
     <p>Telefone: {{ user.profile.phone_number }}</p>
     <p>Curso: {{ user.profile.course }}</p>

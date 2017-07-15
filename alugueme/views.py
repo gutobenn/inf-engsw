@@ -195,7 +195,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            messages.success(request, 'Olá, {0}!'.format(user))
+            messages.success(request, 'Olá, {0}!'.format(user.get_first_name()))
             return redirect('index')
     else:
         form = SignUpForm()

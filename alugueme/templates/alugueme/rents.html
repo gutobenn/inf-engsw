@@ -23,7 +23,7 @@
                   </div>
                   <div class="rent_description">
                     <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-                    Anunciado por {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
+                    Anunciado por {{ rent.item.owner.get_full_name }}<br>
                     Pedido {{ rent.request_date|naturaltime }}<br>
                     Período: {{ rent.months }} meses<br>
                     Forma de pagamento:
@@ -62,7 +62,7 @@
               </div>
               <div class="rent_description">
                 <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-                Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
+                Alugado de {{ rent.item.owner.get_full_name }}<br>
                 Data de devolução: {{ rent.due_date }}
               </div>
             </div>
@@ -70,7 +70,7 @@
         </div>
       </div>
     </div>
-          
+
     <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
@@ -88,7 +88,7 @@
                 </div>
                 <div class="rent_description">
                   <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-                  Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
+                  Alugado de {{ rent.item.owner.get_full_name }}<br>
                   Data de devolução: {{ rent.due_date }}
                 </div>
               {% endfor %}
@@ -114,7 +114,7 @@
             </div>
             <div class="rent_description">
               <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-              Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
+              Alugado de {{ rent.item.owner.get_full_name }}<br>
               Data de devolução: {{ rent.due_date }}
             </div>
           </div>
@@ -146,7 +146,7 @@
                   </div>
                   <div class="rent_description">
                     <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-                    Pedido por {{ rent.user.first_name }} {{ rent.user.last_name }}, {{ rent.request_date|naturaltime }}<br>
+                    Pedido por {{ rent.user.get_full_name }}, {{ rent.request_date|naturaltime }}<br>
 		    Período: {{ rent.months }} meses<br>
                     Forma de pagamento:
                       {% if rent.payment == 1 %}
@@ -186,7 +186,7 @@
                 </div>
                 <div class="rent_description">
                   <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-                  Pedido por {{ rent.user.first_name }} {{ rent.user.last_name }}, {{ rent.request_date|naturaltime }}<br>
+                  Pedido por {{ rent.user.get_full_name }}, {{ rent.request_date|naturaltime }}<br>
 		  Data de devolução: {{ rent.due_date }}<br>
                   Forma de pagamento:
                     {% if rent.payment == 1 %}
@@ -223,7 +223,7 @@
                 </div>
                 <div class="rent_description">
                   <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-                  Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
+                  Alugado de {{ rent.item.get_full_name }}<br>
                   Data de devolução: {{ rent.due_date }}
                 </div>
               </div>
