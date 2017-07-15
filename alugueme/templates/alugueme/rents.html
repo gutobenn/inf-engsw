@@ -1,77 +1,77 @@
-  {% extends 'alugueme/base.html' %}
-  {% load humanize %}
-  {% block content %}
-    <h2>Aluguéis</h2>
+{% extends 'alugueme/base.html' %}
+{% load humanize %}
+{% block content %}
+  <h2>Aluguéis</h2>
 
-    <div class="row rents">
-      <div class="col-md-6">
-        <div class="panel-group" id="accordion">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapseOne">
-                  Seus pedidos
-                </a>
-              </h4>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse in">
-              <div class="panel-body">
-                {% for rent in my_rents %}
-                  <div class="pending_rent clearfix">
-                    <div class="rent_img">
-                      <img src="{{ rent.item.image.url }}">
-                    </div>
-                    <div class="rent_description">
-                      <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-                      Anunciado por {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
-                      Pedido {{ rent.request_date|naturaltime }}<br>
-                      Período: {{ rent.months }} meses<br>
-                      Forma de pagamento:
-                        {% if rent.payment == 1 %}
-                          {{ payment_choices.0.1 }}<br>
-                          R${{ rent.item.price }} por mês
-                        {% else %}
-                          {{ payment_choices.1.1 }}
-                        {% endif %}
-                    </div>
-                    <div class="rent_buttons">
-                      <form action="{% url 'rent_cancel' pk=rent.pk %}" method="post">{% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-xs">Cancelar</button>
-                      </form>
-                    </div>
+  <div class="row rents">
+    <div class="col-md-6">
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle" data-toggle="collapse" href="#collapseOne">
+                Seus pedidos
+              </a>
+            </h4>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse in">
+            <div class="panel-body">
+              {% for rent in my_rent_requests %}
+                <div class="pending_rent clearfix">
+                  <div class="rent_img">
+                    <img src="{{ rent.item.image.url }}">
                   </div>
-                {% endfor %}
-              </div>
+                  <div class="rent_description">
+                    <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
+                    Anunciado por {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
+                    Pedido {{ rent.request_date|naturaltime }}<br>
+                    Período: {{ rent.months }} meses<br>
+                    Forma de pagamento:
+                      {% if rent.payment == 1 %}
+                        {{ payment_choices.0.1 }}<br>
+                        R${{ rent.item.price }} por mês
+                      {% else %}
+                        {{ payment_choices.1.1 }}
+                      {% endif %}
+                  </div>
+                  <div class="rent_buttons">
+                    <form action="{% url 'rent_cancel' pk=rent.pk %}" method="post">{% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-xs">Cancelar</button>
+                    </form>
+                  </div>
+                </div>
+              {% endfor %}
             </div>
           </div>
-
-          <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a class="accordion-toggle" data-toggle="collapse" href="#collapseTwo">
-              Itens que estão com você (no prazo)
-            </a>
-          </h4>
         </div>
-        <div id="collapseTwo" class="panel-collapse collapse">
-          <div class="panel-body">
-            {% for rent in my_current_rents %}
-              <div class="my_current_rent clearfix">
-                <div class="rent_img">
-                  <img src="{{ rent.item.image.url }}">
-                </div>
-                <div class="rent_description">
-                  <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-                  Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
-                  Data de devolução: {{ rent.due_date }}
-                </div>
+
+        <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a class="accordion-toggle collapsed" data-toggle="collapse" href="#collapseTwo">
+            Itens que estão com você (dentro do prazo)
+          </a>
+        </h4>
+      </div>
+      <div id="collapseTwo" class="panel-collapse collapse">
+        <div class="panel-body">
+          {% for rent in my_current_rents %}
+            <div class="my_current_rent clearfix">
+              <div class="rent_img">
+                <img src="{{ rent.item.image.url }}">
               </div>
-            {% endfor %}
-          </div>
+              <div class="rent_description">
+                <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
+                Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
+                Data de devolução: {{ rent.due_date }}
+              </div>
+            </div>
+          {% endfor %}
         </div>
       </div>
-
-          <div class="panel panel-default">
+    </div>
+          
+    <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
             <a class="accordion-toggle" data-toggle="collapse" href="#collapseSeven">
@@ -91,95 +91,55 @@
                   Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
                   Data de devolução: {{ rent.due_date }}
                 </div>
-              </div>
-            {% endfor %}
+              {% endfor %}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a class="accordion-toggle" data-toggle="collapse" href="#collapseThree">
-            Empréstimos encerrados
-          </a>
-        </h4>
-      </div>
-      <div id="collapseThree" class="panel-collapse collapse">
-        <div class="panel-body">
-          {% for rent in my_current_rents %}
-            <div class="my_current_rent clearfix">
-              <div class="rent_img">
-                <img src="{{ rent.item.image.url }}">
-              </div>
-              <div class="rent_description">
-                <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-                Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
-                Data de devolução: {{ rent.return_date }}
-              </div>
+
+    <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle collapsed" data-toggle="collapse" href="#collapseThree">
+          Empréstimos encerrados
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse">
+      <div class="panel-body">
+        {% for rent in my_past_rents %}
+          <div class="my_current_rent clearfix">
+            <div class="rent_img">
+              <img src="{{ rent.item.image.url }}">
             </div>
-          {% endfor %}
-        </div>
+            <div class="rent_description">
+              <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
+              Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
+              Data de devolução: {{ rent.due_date }}
+            </div>
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>
+</div>
 
 
-      </div>
+    </div>
 
-      <div class="col-md-6">
-        <div class="panel-group" id="accordion">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapseFour">
-                  Pedidos para você
-                </a>
-              </h4>
-            </div>
-            <div id="collapseFour" class="panel-collapse collapse in">
-              <div class="panel-body">
-                {% for rent in rents_my_items %}
-                  <div class="my_item_rent clearfix">
-                    <div class="rent_img">
-                      <img src="{{ rent.item.image.url }}">
-                    </div>
-                    <div class="rent_description">
-                      <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-                      Pedido por {{ rent.user.first_name }} {{ rent.user.last_name }}, {{ rent.request_date|naturaltime }}<br>
-                      Período: {{ rent.months }} meses<br>
-                      Forma de pagamento:
-                        {% if rent.payment == 1 %}
-                          {{ payment_choices.0.1 }}
-                        {% else %}
-                          {{ payment_choices.1.1 }}
-                        {% endif %}
-                    </div>
-                    <div class="rent_buttons">
-                      <form action="{% url 'rent_accept' pk=rent.pk %}" method="post">{% csrf_token %}
-                        <button type="submit" class="btn btn-success btn-sm">Aceitar</button>
-                      </form>
-                      <form action="{% url 'rent_reject' pk=rent.pk %}" method="post">{% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm">Recusar</button>
-                      </form>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-
+    <div class="col-md-6">
+      <div class="panel-group" id="accordion">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a class="accordion-toggle" data-toggle="collapse" href="#collapseFive">
-                Seus itens alugados
+              <a class="accordion-toggle" data-toggle="collapse" href="#collapseFour">
+                Pedidos para você
               </a>
             </h4>
           </div>
-          <div id="collapseFive" class="panel-collapse collapse">
+          <div id="collapseFour" class="panel-collapse collapse in">
             <div class="panel-body">
-              {% for rent in rents_my_items %}
+              {% for rent in my_items_rent_requests %}
                 <div class="my_item_rent clearfix">
                   <div class="rent_img">
                     <img src="{{ rent.item.image.url }}">
@@ -187,7 +147,7 @@
                   <div class="rent_description">
                     <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
                     Pedido por {{ rent.user.first_name }} {{ rent.user.last_name }}, {{ rent.request_date|naturaltime }}<br>
-                    Período: {{ rent.months }} meses<br>
+		    Período: {{ rent.months }} meses<br>
                     Forma de pagamento:
                       {% if rent.payment == 1 %}
                         {{ payment_choices.0.1 }}
@@ -195,45 +155,84 @@
                         {{ payment_choices.1.1 }}
                       {% endif %}
                   </div>
-                    <div class="rent_buttons2">
-                      <form action="{% url 'rent_terminate' pk=rent.pk %}" method="post">{% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-xs">Finalizar</button>
-                      </form>
-                    </div>
+                  <div class="rent_buttons">
+                    <form action="{% url 'rent_accept' pk=rent.pk %}" method="post">{% csrf_token %}
+                      <button type="submit" class="btn btn-success btn-sm">Aceitar</button>
+                    </form>
+                    <form action="{% url 'rent_reject' pk=rent.pk %}" method="post">{% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-sm">Recusar</button>
+                    </form>
+                  </div>
                 </div>
               {% endfor %}
             </div>
           </div>
         </div>
 
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a class="accordion-toggle" data-toggle="collapse" href="#collapseSix">
-                Empréstimos encerrados
-              </a>
-            </h4>
-          </div>
-          <div id="collapseSix" class="panel-collapse collapse">
-            <div class="panel-body">
-              {% for rent in my_current_rents %}
-                <div class="my_current_rent clearfix">
-                  <div class="rent_img">
-                    <img src="{{ rent.item.image.url }}">
-                  </div>
-                  <div class="rent_description">
-                    <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-                    Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
-                    Data de devolução: {{ rent.return_date }}
-                  </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" href="#collapseFive">
+              Seus itens alugados
+            </a>
+          </h4>
+        </div>
+        <div id="collapseFive" class="panel-collapse collapse">
+          <div class="panel-body">
+            {% for rent in my_items_current_rents %}
+              <div class="my_item_rent clearfix">
+                <div class="rent_img">
+                  <img src="{{ rent.item.image.url }}">
                 </div>
-              {% endfor %}
-              <!-- TODO ajeitar titulos e itens mostrados TODO ajeitar figura da seta (aparecendo pra baixo no começo)-->
-            </div>
+                <div class="rent_description">
+                  <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
+                  Pedido por {{ rent.user.first_name }} {{ rent.user.last_name }}, {{ rent.request_date|naturaltime }}<br>
+		  Data de devolução: {{ rent.due_date }}<br>
+                  Forma de pagamento:
+                    {% if rent.payment == 1 %}
+                      {{ payment_choices.0.1 }}
+                    {% else %}
+                      {{ payment_choices.1.1 }}
+                    {% endif %}
+                </div>
+		    <div class="rent_buttons2">
+		      <form action="{% url 'rent_terminate' pk=rent.pk %}" method="post">{% csrf_token %}
+			<button type="submit" class="btn btn-danger btn-xs">Finalizar</button>
+		      </form>
+		    </div>
+              </div>
+            {% endfor %}
           </div>
         </div>
       </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" href="#collapseSix">
+              Empréstimos encerrados
+            </a>
+          </h4>
+        </div>
+        <div id="collapseSix" class="panel-collapse collapse">
+          <div class="panel-body">
+            {% for rent in my_items_past_rents %}
+              <div class="my_current_rent clearfix">
+                <div class="rent_img">
+                  <img src="{{ rent.item.image.url }}">
+                </div>
+                <div class="rent_description">
+                  <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
+                  Alugado de {{ rent.item.owner.first_name }} {{ rent.item.owner.last_name }}<br>
+                  Data de devolução: {{ rent.due_date }}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
     </div>
+    </div>
+  </div>
 
-  {% endblock %}
+{% endblock %}

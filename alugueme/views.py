@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user
 from django.contrib.auth.decorators import login_required
@@ -29,6 +29,7 @@ def check_due_date():
         status=Rent.CONFIRMED_STATUS)
     for rent in rents:
         rent.status = Rent.DELAYED_STATUS
+        rent.save()
         send_templated_mail(
             template_name='rent_due',
             from_email='alugueme@florescer.xyz',
@@ -204,23 +205,31 @@ class ItemView(SearchListView):
 
 @login_required(login_url='login')
 def rents(request):
-    my_rents = Rent.objects.filter(
+    my_rent_requests = Rent.objects.filter(
         user=get_user(request), status=Rent.PENDING_STATUS)
-    my_delayed_rents = Rent.objects.filter(
-        user=get_user(request), status=Rent.DELAYED_STATUS)
     my_current_rents = Rent.objects.filter(
         user=get_user(request), status=Rent.CONFIRMED_STATUS)
-    rents_my_items = Rent.objects.filter(
+    my_past_rents = Rent.objects.filter(
+        user=get_user(request), status=Rent.ENDED_STATUS)
+    my_items_rent_requests = Rent.objects.filter(
         item__owner=get_user(request), status=Rent.PENDING_STATUS)
+    my_items_current_rents = Rent.objects.filter(
+        item__owner=get_user(request), status=Rent.CONFIRMED_STATUS) | Rent.objects.filter(item__owner=get_user(request), status=Rent.DELAYED_STATUS)
+    my_items_past_rents = Rent.objects.filter(
+        item__owner=get_user(request), status=Rent.ENDED_STATUS)
+    my_delayed_rents = Rent.objects.filter(
+        user=get_user(request), status=Rent.DELAYED_STATUS)
 
     return render(request, 'alugueme/rents.html', {
-        'my_rents': my_rents,
-        'my_delayed_rents': my_delayed_rents,
-        'rents_my_items': rents_my_items,
+        'my_rent_requests': my_rent_requests,
         'my_current_rents': my_current_rents,
+        'my_past_rents': my_past_rents,
+        'my_items_rent_requests': my_items_rent_requests,
+        'my_items_current_rents': my_items_current_rents,
+        'my_items_past_rents': my_items_past_rents,
+        'my_delayed_rents': my_delayed_rents,
         'payment_choices': Rent.PAYMENT_CHOICES
     })
-
 
 @login_required(login_url='login')
 def rent_cancel(request, pk):
@@ -235,26 +244,14 @@ def rent_cancel(request, pk):
         raise Http404
 
 @login_required(login_url='login')
-def rent_terminate(request, pk):
-    rent = get_object_or_404(Rent, pk=pk)
-
-    if request.method == "POST" and get_user(request) == rent.item.owner:
-        rent.status = Rent.DELAYED_STATUS
-        rent.save()
-        messages.success(request, 'Pedido cancelado')
-        return redirect('rents')
-    else:
-        raise Http404
-
-@login_required(login_url='login')
 def rent_accept(request, pk):
     rent = get_object_or_404(Rent, pk=pk)
 
     if request.method == "POST" and get_user(request) == rent.item.owner:
         rent.status = Rent.CONFIRMED_STATUS
         rent.confirmation_date = timezone.now()  # TODO usar date.today() ? E se a troca não for feita no dia? a data de devolucao vai ficar errada
-        #rent.due_date = (rent.cofirmation_date + datetime.timedelta(months=rent.months)).date()
-        rent.due_date = timezone.now()
+        rent.due_date = (rent.cofirmation_date + datetime.timedelta(months=rent.months)).date()
+        #rent.due_date = timezone.now() # <- test case for delayed item
         rent.item.status = Item.UNAVAILABLE_STATUS
         rent.item.save()
         rent.save()
@@ -288,6 +285,20 @@ def rent_accept(request, pk):
     else:
         raise Http404
 
+
+@login_required(login_url='login')
+def rent_terminate(request, pk):
+    rent = get_object_or_404(Rent, pk=pk)
+
+    if request.method == "POST" and get_user(request) == rent.item.owner:
+        rent.status = Rent.ENDED_STATUS
+        rent.save()
+        rent.item.status = Item.AVAILABLE_STATUS
+        rent.item.save()
+        messages.success(request, 'Aluguel finalizado com sucesso. Seu item está disponível novamente')
+        return redirect('rents')
+    else:
+        raise Http404
 
 @login_required(login_url='login')
 def rent_reject(request, pk):

@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'alugueme',
+    'star_ratings',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -143,3 +144,4 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'America/Sao_Paulo'
 
+STAR_RATINGS_RERATE = False

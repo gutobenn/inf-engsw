@@ -39,10 +39,12 @@ class Rent(models.Model):
     PENDING_STATUS = 1
     CANCELLED_STATUS = 2
     CONFIRMED_STATUS = 3
-    DELAYED_STATUS = 4
+    ENDED_STATUS = 4
+    DELAYED_STATUS = 5
     STATUS_CHOICES = ((PENDING_STATUS, 'Pendente'),
-                      (CANCELLED_STATUS, 'Cancelado'), 
+                      (CANCELLED_STATUS, 'Cancelado'),
                       (CONFIRMED_STATUS, 'Confirmado'),
+                      (ENDED_STATUS, 'Encerrado'),
                       (DELAYED_STATUS, 'Atrasado'))
     MONEY = 1
     TRADE = 2
