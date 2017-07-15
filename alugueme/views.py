@@ -11,7 +11,7 @@ from django.views.generic import DeleteView, UpdateView
 from search_views.filters import BaseFilter
 from search_views.views import SearchListView
 from templated_email import send_templated_mail
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from alugueme.forms import ItemForm, RentForm, SearchItemForm, SignUpForm
 from alugueme.models import Item, Rent
@@ -250,7 +250,7 @@ def rent_accept(request, pk):
     if request.method == "POST" and get_user(request) == rent.item.owner:
         rent.status = Rent.CONFIRMED_STATUS
         rent.confirmation_date = timezone.now()  # TODO usar date.today() ? E se a troca não for feita no dia? a data de devolucao vai ficar errada
-        rent.due_date = (rent.cofirmation_date + datetime.timedelta(months=rent.months)).date()
+        rent.due_date = rent.confirmation_date + timedelta(days=rent.months*30) # timedelta only works with day
         #rent.due_date = timezone.now() # <- test case for delayed item
         rent.item.status = Item.UNAVAILABLE_STATUS
         rent.item.save()
@@ -292,6 +292,7 @@ def rent_terminate(request, pk):
 
     if request.method == "POST" and get_user(request) == rent.item.owner:
         rent.status = Rent.ENDED_STATUS
+        rent.due_date = timezone.now()
         rent.save()
         rent.item.status = Item.AVAILABLE_STATUS
         rent.item.save()
