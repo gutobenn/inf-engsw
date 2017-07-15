@@ -12,9 +12,19 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=40, blank=True)
     course = models.CharField(max_length=40, blank=True)
     phone_number = models.CharField(max_length=12, blank=True)
+    
+    ## CONSTANTS
+    c_max_items = models.PositiveSmallIntegerField(default=10)
+    c_max_rents = models.PositiveSmallIntegerField(default=3)
 
-    MAXITEMS = 10
-    MAXRENTS = 3
+    # counter for # of active announcements
+    items = models.PositiveSmallIntegerField(
+            validators=[MinValueValidator(0), MaxValueValidator(c_max_items)], default=0) 
+    # counter for # of active announcements
+    rents = models.PositiveSmallIntegerField(
+            validators=[MinValueValidator(0), MaxValueValidator(c_max_rents)], default=0) 
+
+    can_rent = models.BooleanField(default=True) # flag for rent
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
@@ -25,10 +35,9 @@ def update_user_profile(sender, instance, created, **kwargs):
 class Item(models.Model):
     AVAILABLE_STATUS = 1
     UNAVAILABLE_STATUS = 2
+    INACTIVE_STATUS = 3
 
-    STATUS_CHOICES = ((AVAILABLE_STATUS, 'Disponível'), (UNAVAILABLE_STATUS,
-                                                         'Indisponível'), )
-
+    STATUS_CHOICES = ((AVAILABLE_STATUS, 'Disponível'), (UNAVAILABLE_STATUS, 'Indisponível'), (INACTIVE_STATUS, "Inativo"))
     title = models.CharField(max_length=60, verbose_name='Título')
     description = models.TextField(max_length=800, verbose_name='Descrição')
     published_date = models.DateTimeField(blank=True, null=True)

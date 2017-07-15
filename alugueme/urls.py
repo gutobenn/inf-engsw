@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^items/new/$', views.item_new, name='item_new'),
     url(r'^items/(?P<pk>[0-9]+)/$', views.item_detail, name='item_detail'),
     url(r'^items/(?P<pk>[0-9]+)/edit/$', views.item_edit, name='item_edit'),
+    url(r'^items/(?P<pk>[0-9]+)/activation/$', views.item_act_deact, name='item_act_deact'),
     url(r'^profile/$', views.view_profile, name='view_profile'),
     url(r'^profile/(?P<pk>\d+)/$', views.view_profile, name='view_profile_with_pk'),
     url(r'^rents/$', views.rents, name='rents'),

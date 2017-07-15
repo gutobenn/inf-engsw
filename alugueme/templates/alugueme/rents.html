@@ -2,7 +2,11 @@
 {% load humanize %}
 {% block content %}
   <h2>Aluguéis</h2>
-
+  {% if user.rents == 1 %}
+    <h3>Você possui {{ user.rents }} aluguél ativo dos {{ user.c_max_rents }} permitidos</h3>
+  {% else %}
+    <h3>Você possui {{ user.rents }} aluguéis ativos dos {{ user.c_max_rents }} permitidos</h3>
+  {% endif %}
   <div class="row rents">
     <div class="col-md-6">
       <div class="panel-group" id="accordion">

@@ -1,0 +1,6 @@
+{% block subject %}Aluguel rejeitado! {{item}}{% endblock %}
+{% block html %}
+  Olá {{first_name}},<br><br>
+  Seu pedido de aluguel para o item {{item}} foi automaticamente rejeitado pois você atingiu o limite de alugúeis permitidos.<br>Devolva algum item para fazer novos aluguéis.
+
+{% endblock %}
