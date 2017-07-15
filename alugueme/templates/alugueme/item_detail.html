@@ -29,7 +29,6 @@
         <h3><span class="label label-danger">Indisponível</span></h3>
       {% endif %}
       <div id="item-detail-owner">
-        {{ item.owner.phone_number }}a
         <span class="glyphicon glyphicon-user"></span> <a href="{% url 'view_profile_with_pk' pk=item.owner.pk %}">{{ item.owner.first_name }} {{ item.owner.last_name }}</a><br>
         <span class="glyphicon glyphicon-time"></span>
         {% if item.published_date %}
