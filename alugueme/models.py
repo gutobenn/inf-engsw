@@ -75,6 +75,6 @@ class Rent(models.Model):
         verbose_name='Meses',
         validators=[MinValueValidator(1),
                     MaxValueValidator(6)],
-        default=1)  #TODO limit field max and min
+        default=1)
     payment = models.IntegerField(
         choices=PAYMENT_CHOICES, verbose_name='Forma de pagamento')

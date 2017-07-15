@@ -4,7 +4,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from django.forms.widgets import TextInput
 
+class NumberInput(TextInput):
+    input_type = 'number'
 
 from .models import Item, Rent, User
 
@@ -73,3 +76,7 @@ class RentForm(forms.ModelForm):
     class Meta:
         model = Rent
         fields = ('months', 'payment')
+
+        widgets = {
+            'months': NumberInput(attrs={'min': 1, 'max':6}),
+        }
