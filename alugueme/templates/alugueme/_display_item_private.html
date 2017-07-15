@@ -16,15 +16,15 @@
       <!--{% if item.owner == request.user %}
         <p><br><a href="{%url 'item_edit' pk=item.pk %}">Editar</a></p>
       {% endif %}-->
-    </div>
-    <div class="rent_buttons">
-      <form action="{% url 'item_act_deact' pk=item.pk %}" method="post">{% csrf_token %}
-      {% if item.status == item.INACTIVE_STATUS %}
-        <button type="submit" class="btn btn-success btn-xs">Ativar Item</button>
-      {% else %}
-        <button type="submit" class="btn btn-danger btn-xs">Desativar Item</button>
-      {% endif %}
-      </form>
+      <div class="rent_buttons">
+        <form action="{% url 'item_act_deact' pk=item.pk %}" method="post">{% csrf_token %}
+        {% if item.status == item.INACTIVE_STATUS %}
+          <button type="submit" class="btn btn-success btn-xs">Ativar Item</button>
+        {% else %}
+          <button type="submit" class="btn btn-danger btn-xs">Desativar Item</button>
+        {% endif %}
+        </form>
+      </div>
     </div>
   </div>
 </div>
