@@ -20,7 +20,7 @@
       <p>{{ item.description|linebreaksbr }}</p>
       <hr />
       <b>Avaliações</b>
-      <p>{% ratings item %}</p> <!-- TODO Tirar prints que aparecem na página do item por causa do ratings--> 
+      <p>{% ratings item %}</p> <!-- TODO Tirar prints que aparecem na página do item por causa do ratings-->
     </div>
     <div class="col-sm-3" id="rightcolx">
       {% if item.status == item.AVAILABLE_STATUS %}
@@ -29,7 +29,8 @@
         <h3><span class="label label-danger">Indisponível</span></h3>
       {% endif %}
       <div id="item-detail-owner">
-        <span class="glyphicon glyphicon-user"></span> {{ item.owner.first_name }} {{ item.owner.last_name }}<br>
+        {{ item.owner.phone_number }}a
+        <span class="glyphicon glyphicon-user"></span> <a href="{% url 'view_profile_with_pk' pk=item.owner.pk %}">{{ item.owner.first_name }} {{ item.owner.last_name }}</a><br>
         <span class="glyphicon glyphicon-time"></span>
         {% if item.published_date %}
             {{ item.published_date|naturaltime }}

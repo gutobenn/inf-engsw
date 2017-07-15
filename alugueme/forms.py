@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+
 
 from .models import Item, Rent, User
 
@@ -11,12 +13,13 @@ def validate_email(value):
     if not value.endswith('@inf.ufrgs.br'):
         raise ValidationError(_('Seu e-mail deve ser @inf.ufrgs.br'))
 
-
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(
         max_length=30, help_text='Obrigatório.', label='Nome')
     last_name = forms.CharField(
         max_length=30, help_text='Obrigatório.', label='Sobrenome')
+    course = forms.CharField(
+        max_length=40, help_text='Obrigatório.', label='Curso')
     email = forms.EmailField(
         max_length=254,
         help_text='Obrigatório. Informe um endereço de e-mail válido.',
@@ -35,8 +38,7 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'phone_number',
-                  'email', 'password1', 'password2', )
-
+                  'course', 'email', 'password1', 'password2', )
 
 class ItemForm(forms.ModelForm):
     class Meta:

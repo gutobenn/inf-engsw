@@ -2,7 +2,8 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
@@ -11,6 +12,7 @@ from django.views.generic import DeleteView, UpdateView
 from search_views.filters import BaseFilter
 from search_views.views import SearchListView
 from templated_email import send_templated_mail
+from django.template import RequestContext
 
 from alugueme.forms import ItemForm, RentForm, SearchItemForm, SignUpForm
 from alugueme.models import Item, Rent
@@ -138,15 +140,27 @@ def item_detail(request, pk):
                                'form': form})
     return render(request, 'alugueme/item_detail.html', {'item': item})
 
+@login_required(login_url='login')
+def view_profile(request, pk=None):
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
+    items = Item.objects.filter(owner=user).order_by('published_date')
+    args = {'user': user, 'items': items}
+    return render(request, 'alugueme/profile.html', args)
 
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
+            user = form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            user.profile.course = form.cleaned_data.get('course')
+            user.profile.phone_number = form.cleaned_data.get('phone_number')
+            user.save()
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            user = authenticate(username=user.username, password=raw_password)
             login(request, user)
             messages.success(request, 'Olá, {0}!'.format(user))
             return redirect('index')

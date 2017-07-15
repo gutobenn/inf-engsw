@@ -1,0 +1,20 @@
+{% extends 'alugueme/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+    <p>Email: {{ user.email }}</p>
+    <p>Telefone: {{ user.profile.phone_number }}</p>
+    <p>Curso: {{ user.profile.course }}</p>
+
+    <h3>Avaliações</h3>
+
+    <h3>Itens</h3>
+    <div class="row items-list">
+      {% for item in items %}
+        {% include 'alugueme/_display_item.html' %}
+      {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
