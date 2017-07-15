@@ -279,9 +279,8 @@ def rent_accept(request, pk):
 
     if request.method == "POST" and get_user(request) == rent.item.owner:
         rent.status = Rent.CONFIRMED_STATUS
-        rent.confirmation_date = timezone.now()  # TODO usar date.today() ? E se a troca não for feita no dia? a data de devolucao vai ficar errada
+        rent.confirmation_date = timezone.now()
         rent.due_date = rent.confirmation_date + timedelta(days=rent.months*30) # timedelta only works with day
-        #rent.due_date = timezone.now() # <- test case for delayed item
         rent.item.status = Item.UNAVAILABLE_STATUS
         rent.item.save()
         rent.save()
