@@ -62,8 +62,8 @@ def item_new(request):
             item.owner = get_user(request)
             owner_profile = Profile.objects.get(user=get_user(request))
             #check if owner has reached limit of announcements
-            if owner_profile.items < owner_profile.c_max_items:
-                owner_profile.items += 1
+            if owner_profile.number_of_items < owner_profile.MAXITEMS:
+                owner_profile.number_of_items += 1
                 owner_profile.save()
                 item.published_date = timezone.now()
                 item.save()
@@ -84,8 +84,8 @@ def item_act_deact(request, pk):
     if item.status == Item.INACTIVE_STATUS:
         # check if user has not reached item limit
         owner = Profile.objects.get(user=item.owner)
-        if owner.items < owner.c_max_items:
-            owner.items += 1
+        if owner.number_of_items < owner.MAXITEMS:
+            owner.number_of_items += 1
             owner.save()
             item.status = Item.AVAILABLE_STATUS
             item.save()
@@ -103,7 +103,7 @@ def item_act_deact(request, pk):
             item.save()
             # change user items
             owner = Profile.objects.get(user=item.owner)
-            owner.items -= 1
+            owner.number_of_items -= 1
             owner.save()
             # Cancel rent requests for item
             other_rent_requests = Rent.objects.filter(
@@ -352,12 +352,12 @@ def rent_accept(request, pk):
     if request.method == "POST" and get_user(request) == rent.item.owner:
         rent_user_profile = Profile.objects.get(user=rent.user)
         # check if renting user has not reached rent limit
-        if rent_user_profile.rents < rent_user_profile.c_max_rents:
+        if rent_user_profile.number_of_rents < rent_user_profile.MAXRENTS:
             # check if renting user has no delayed items
             # there are cases where the rent request was made before the user got blocked
             # so this test must be made here
             if rent_user_profile.can_rent:
-                rent_user_profile.rents += 1
+                rent_user_profile.number_of_rents += 1
                 rent.status = Rent.CONFIRMED_STATUS
                 rent.confirmation_date = timezone.now()
 
@@ -416,7 +416,7 @@ def rent_terminate(request, pk):
         rent.status = Rent.ENDED_STATUS
         rent.due_date = timezone.now()
         rent.item.status = Item.AVAILABLE_STATUS
-        rent_user_profile.rents -= 1
+        rent_user_profile.number_of_rents -= 1
         rent.save()
         rent_user_profile.save()
         rent.item.save()

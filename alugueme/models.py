@@ -15,15 +15,15 @@ class Profile(models.Model):
     phone_number = models.CharField(max_length=12, blank=True)
 
     ## CONSTANTS
-    c_max_items = models.PositiveSmallIntegerField(default=10)
-    c_max_rents = models.PositiveSmallIntegerField(default=3)
+    MAXITEMS = 10
+    MAXRENTS = 3
 
     # counter for # of active announcements
-    items = models.PositiveSmallIntegerField(
-            validators=[MinValueValidator(0), MaxValueValidator(c_max_items)], default=0)
+    number_of_items = models.PositiveSmallIntegerField(
+            validators=[MinValueValidator(0), MaxValueValidator(MAXITEMS)], default=0)
     # counter for # of active announcements
-    rents = models.PositiveSmallIntegerField(
-            validators=[MinValueValidator(0), MaxValueValidator(c_max_rents)], default=0)
+    number_of_rents = models.PositiveSmallIntegerField(
+            validators=[MinValueValidator(0), MaxValueValidator(MAXRENTS)], default=0)
 
     can_rent = models.BooleanField(default=True) # flag for rent
 

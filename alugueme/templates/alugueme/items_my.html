@@ -1,7 +1,7 @@
 {% extends 'alugueme/base.html' %}
 {% block content %}
   <h2>Meus Itens</h2>
-  <h4>Você possui {{ owner.items }} anúncio{{ owner.items|pluralize }} ativo{{ owner.items|pluralize }} de {{ owner.c_max_items }} permitidos</h4>
+  <h4>Você possui {{ owner.number_of_items }} anúncio{{ owner.number_of_items|pluralize }} ativo{{ owner.number_of_items|pluralize }} de {{ owner.MAXITEMS }} permitidos</h4>
 
   <p><br><a href="{% url 'item_new' %}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Cadastrar Item</a><br><br></p>
 

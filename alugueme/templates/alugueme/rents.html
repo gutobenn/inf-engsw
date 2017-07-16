@@ -2,7 +2,7 @@
 {% load humanize %}
 {% block content %}
   <h2>Aluguéis</h2>
-  <h4>Você possui {{ user_profile.rents }} alugu{{ user_profile.rents|pluralize:"el,éis" }} ativo{{ user_profile.rents|pluralize }} de {{ user_profile.c_max_rents }} permitidos</h4>
+  <h4>Você possui {{ user_profile.number_of_rents }} alugu{{ user_profile.number_of_rents|pluralize:"el,éis" }} ativo{{ user_profile.number_of_rents|pluralize }} de {{ user_profile.MAXRENTS }} permitidos</h4>
   <div class="row rents">
     <div class="col-md-6">
       <div class="panel-group" id="accordion">
