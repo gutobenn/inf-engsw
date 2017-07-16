@@ -39,8 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'likert_field',
     'alugueme',
-    'star_ratings',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -143,5 +143,3 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'America/Sao_Paulo'
-
-STAR_RATINGS_RERATE = False

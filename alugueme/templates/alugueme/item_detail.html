@@ -1,10 +1,7 @@
 {% extends 'alugueme/base.html' %}
 {% load humanize %}
 {% load static %}
-{% load ratings %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
-<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
   <div class="row item-detail">
     <div class="col-sm-5" id="leftcolx">
       <h2>{{ item.title }}
@@ -19,8 +16,10 @@
       <b>Descrição</b>
       <p>{{ item.description|linebreaksbr }}</p>
       <hr />
-      <b>Avaliações</b>
-      <p>{% ratings item %}</p>
+      <p><b>Avaliações</b></p>
+      {% for avaliation in avaliations %}
+        {% include 'alugueme/_display_avaliation.html' %}
+      {% endfor %}
     </div>
     <div class="col-sm-3" id="rightcolx">
       {% if item.status == item.AVAILABLE_STATUS %}

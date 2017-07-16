@@ -1,0 +1,6 @@
+{% load likert_bs_stars %}
+<div>
+  {{ avaliation.stars|bs_stars3}}<br>
+  "{{ avaliation.description }}"
+  - <a href="{% url 'view_profile_with_pk' pk=avaliation.user.pk %}">{{ avaliation.user.first_name }}</a><br><br>
+</div>

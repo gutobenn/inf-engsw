@@ -4,13 +4,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from django.forms import Form
 from django.forms.widgets import TextInput
+from .models import Item, Rent, User, Avaliation
+from likert_field.forms import LikertFormField
+from likert_field.widgets import LikertTextField
 
 class NumberInput(TextInput):
     input_type = 'number'
-
-from .models import Item, Rent, User
-
 
 def validate_email(value):
     if not value.endswith('@inf.ufrgs.br'):
@@ -48,6 +49,10 @@ class ItemForm(forms.ModelForm):
         model = Item
         fields = ('title', 'description', 'price', 'image')
 
+class AvaliationForm(forms.ModelForm):
+    class Meta:
+        model = Avaliation
+        fields = ('stars', 'description')
 
 class SearchItemForm(forms.Form):
     search_text = forms.CharField(

@@ -186,7 +186,7 @@
                 </div>
                 <div class="rent_description">
                   <h4><a href="{% url 'item_detail' pk=rent.item.pk %}">{{ rent.item.title }}</a><br></h4>
-                  Pedido por {{ rent.user.get_full_name }}, {{ rent.request_date|naturaltime }}<br>
+                  Alugado para {{ rent.user.get_full_name }}, {{ rent.request_date|naturaltime }}<br>
 		              Data de devolução: {{ rent.due_date }}<br>
                   Forma de pagamento:
                     {% if rent.payment == 1 %}

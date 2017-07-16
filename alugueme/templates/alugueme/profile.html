@@ -8,6 +8,15 @@
     <p>Curso: {{ user.profile.course }}</p>
 
     <h3>Avaliações</h3>
+    <div><h4>Como locador</h4>
+      {% for avaliation in avaliations_as_owner %}
+        {% include 'alugueme/_display_avaliation.html' %}
+      {% endfor %}
+      <h4>Como locatário</h4>
+      {% for avaliation in avaliations_as_renter %}
+        {% include 'alugueme/_display_avaliation.html' %}
+      {% endfor %}
+    </div>
 
     <h3>Itens</h3>
     <div class="row items-list">

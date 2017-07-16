@@ -16,8 +16,8 @@ from search_views.filters import BaseFilter
 from search_views.views import SearchListView
 from templated_email import send_templated_mail
 
-from alugueme.forms import ItemForm, RentForm, SearchItemForm, SignUpForm
-from alugueme.models import Item, Rent, Profile
+from alugueme.forms import ItemForm, RentForm, SearchItemForm, SignUpForm, AvaliationForm
+from alugueme.models import Item, Rent, Profile, Avaliation
 
 
 def index(request):
@@ -177,6 +177,7 @@ def item_edit(request, pk):
 
 def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
+    avaliations = Avaliation.objects.filter(rent__item=item).exclude(user=item.owner)
     if request.method == "POST":
         form = RentForm(request.POST)
         if form.is_valid():
@@ -212,13 +213,14 @@ def item_detail(request, pk):
                     status=Rent.PENDING_STATUS).exists():
                 return render(request, 'alugueme/item_detail.html',
                               {'item': item,
-                               'alreadyrequested': True})
+                               'alreadyrequested': True,
+                               'avaliations': avaliations})
             elif item.status == item.AVAILABLE_STATUS and item.owner != get_user(request):
                 form = RentForm()
                 return render(request, 'alugueme/item_detail.html',
                               {'item': item,
                                'form': form})
-    return render(request, 'alugueme/item_detail.html', {'item': item})
+    return render(request, 'alugueme/item_detail.html', {'item': item, 'avaliations': avaliations})
 
 @login_required(login_url='login')
 def view_profile(request, pk=None):
@@ -227,7 +229,9 @@ def view_profile(request, pk=None):
     else:
         user = request.user
     items = Item.objects.filter(owner=user).order_by('published_date')
-    args = {'user': user, 'items': items}
+    avaliations_as_owner = Avaliation.objects.filter(rent__item__owner=user).exclude(user=user)
+    avaliations_as_renter = Avaliation.objects.filter(rent__user=user).exclude(user=user)
+    args = {'user': user, 'items': items, 'avaliations_as_owner': avaliations_as_owner, 'avaliations_as_renter': avaliations_as_renter}
     return render(request, 'alugueme/profile.html', args)
 
 def signup(request):
@@ -418,13 +422,23 @@ def rent_terminate(request, pk):
         rent.item.save()
 
         # check if rent_user has any other delayed item
-        if Rent.objects.filter(due_date__leq=timezone.now(), user=rent.user).count() == 0:
+        if Rent.objects.filter(due_date__lte=timezone.now(), user=rent.user).count() == 0:
             rent_user_profile.can_rent = True
         else:
             rent_user_profile.can_rent = False
 
-        messages.success(request, 'Aluguel finalizado com sucesso. Seu item está disponível novamente')
-        return redirect('rents')
+        send_templated_mail(
+            template_name='rent_rate',
+            from_email='alugueme@florescer.xyz',
+            recipient_list=[rent.user.email],
+            context={
+                'item': rent.item,
+                'first_name': rent.user.first_name,
+                'rent': rent
+            })
+
+        messages.success(request, 'Seu aluguel foi finalizado com sucesso. Por favor, avalie o seu aluguel!')
+        return redirect('rent_rate', pk=rent.pk)
     else:
         raise Http404
 
@@ -448,3 +462,27 @@ def rent_reject(request, pk):
         return redirect('rents')
     else:
         raise Http404
+
+@login_required(login_url='login')
+def rent_rate(request, pk):
+    rent = get_object_or_404(Rent, pk=pk)
+
+    if not (get_user(request) == rent.user or get_user(request) == rent.item.owner):
+        raise Http404
+
+    if Avaliation.objects.filter(user=get_user(request), rent=rent).count() > 0:
+        messages.error(request, 'Você já avaliou esse aluguel!')
+        return redirect('rents')
+
+    if request.method == "POST":
+        form = AvaliationForm(request.POST)
+        if form.is_valid():
+            avaliation = form.save(commit=False)
+            avaliation.rent = rent
+            avaliation.user = get_user(request)
+            avaliation.save()
+            messages.success(request, 'Aluguel avaliado com sucesso')
+            return redirect('rents')
+    else:
+        form = AvaliationForm()
+    return render(request, 'alugueme/rent_rate.html', {'form': form, 'item': rent.item})

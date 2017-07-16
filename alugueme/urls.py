@@ -33,10 +33,12 @@ urlpatterns = [
     url(r'^rents/(?P<pk>[0-9]+)/terminate/$',
         views.rent_terminate,
         name='rent_terminate'),
+    url(r'^rents/(?P<pk>[0-9]+)/rate/$',
+        views.rent_rate,
+        name='rent_rate'),
     url(r'^search', ItemView.as_view(), name="search"),
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'index'},
         name='logout'),
-    url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
 ]

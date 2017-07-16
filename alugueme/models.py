@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from likert_field.models import LikertField
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -12,17 +13,17 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=40, blank=True)
     course = models.CharField(max_length=40, blank=True)
     phone_number = models.CharField(max_length=12, blank=True)
-    
+
     ## CONSTANTS
     c_max_items = models.PositiveSmallIntegerField(default=10)
     c_max_rents = models.PositiveSmallIntegerField(default=3)
 
     # counter for # of active announcements
     items = models.PositiveSmallIntegerField(
-            validators=[MinValueValidator(0), MaxValueValidator(c_max_items)], default=0) 
+            validators=[MinValueValidator(0), MaxValueValidator(c_max_items)], default=0)
     # counter for # of active announcements
     rents = models.PositiveSmallIntegerField(
-            validators=[MinValueValidator(0), MaxValueValidator(c_max_rents)], default=0) 
+            validators=[MinValueValidator(0), MaxValueValidator(c_max_rents)], default=0)
 
     can_rent = models.BooleanField(default=True) # flag for rent
 
@@ -87,3 +88,9 @@ class Rent(models.Model):
         default=1)
     payment = models.IntegerField(
         choices=PAYMENT_CHOICES, verbose_name='Forma de pagamento')
+
+class Avaliation(models.Model):
+    rent = models.ForeignKey(Rent)
+    user = models.ForeignKey(User)
+    stars = LikertField(blank=False)
+    description = models.TextField(max_length=200, verbose_name='Avaliação')
