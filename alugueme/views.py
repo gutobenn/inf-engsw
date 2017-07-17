@@ -332,22 +332,18 @@ def rent_accept(request, pk):
     rent = get_object_or_404(Rent, pk=pk)
 
     # less verbose version of rent reject to be used inside rent_accept
-    def rent_reject(request, rent):
-        if request.method == "POST" and get_user(request) == rent.item.owner:
-            rent.status = Rent.CANCELLED_STATUS
-            rent.save()
-            send_templated_mail(
-                template_name='rent_rejected_automatic',
-                from_email='alugueme@florescer.xyz',
-                recipient_list=[rent.user.email],
-                context={
-                    'item': rent.item,
-                    'first_name': rent.user.first_name,
-                    'item_owner': request.user.first_name
-                })
-        else:
-            raise Http404
-
+    def reject_rent():
+        rent.status = Rent.CANCELLED_STATUS
+        rent.save()
+        send_templated_mail(
+            template_name='rent_rejected_automatic',
+            from_email='alugueme@florescer.xyz',
+            recipient_list=[rent.user.email],
+            context={
+                'item': rent.item,
+                'first_name': rent.user.first_name,
+                'item_owner': request.user.first_name
+            })
 
     if request.method == "POST" and get_user(request) == rent.item.owner:
         rent_user_profile = Profile.objects.get(user=rent.user)
@@ -396,11 +392,11 @@ def rent_accept(request, pk):
                 return redirect('rents')
             else: # renting user is blocked
                 messages.error(request, "Transação cancelada. O usuário que solicitou seu item está temporariamente suspenso. Pedido será cancelado automaticamente.")
-                rent_reject(request, rent)
+                reject_rent()
                 return redirect('rents')
         else:
             messages.error(request, "Transação cancelada. O usuário que solicitou seu item atingiu o limite de itens alugados. Pedido será cancelado automaticamente.")
-            rent_reject(request, rent)
+            reject_rent()
             return redirect('rents')
 
     else:
