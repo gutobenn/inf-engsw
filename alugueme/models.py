@@ -8,23 +8,20 @@ from django.dispatch import receiver
 from likert_field.models import LikertField
 
 class Profile(models.Model):
+    MAXITEMS = 10
+    MAXRENTS = 3
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=40, blank=True)
     course = models.CharField(max_length=40, blank=True)
     phone_number = models.CharField(max_length=12, blank=True)
-
-    ## CONSTANTS
-    MAXITEMS = 10
-    MAXRENTS = 3
-
     # counter for # of active announcements
     number_of_items = models.PositiveSmallIntegerField(
             validators=[MinValueValidator(0), MaxValueValidator(MAXITEMS)], default=0)
     # counter for # of active announcements
     number_of_rents = models.PositiveSmallIntegerField(
             validators=[MinValueValidator(0), MaxValueValidator(MAXRENTS)], default=0)
-
     can_rent = models.BooleanField(default=True) # flag for rent
 
 @receiver(post_save, sender=User)
