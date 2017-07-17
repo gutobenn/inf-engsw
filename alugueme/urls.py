@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^favicon.ico$',
         RedirectView.as_view(
-            url=staticfiles_storage.url('favicon.ico'), permanent=False),
+            url=staticfiles_storage.url('images/favicon.ico'), permanent=False),
         name="favicon"),
     url(r'^items/$', views.items_my, name='items_my'),
     url(r'^items/new/$', views.item_new, name='item_new'),
