@@ -10,8 +10,7 @@
 - Acessar a página do item para mostrar avaliação
 
 #### E-mail de aviso de devolução e bloqueio do usuário
-- O aluguel que Augusto fez da régua de Lucas venceu e não foi finalizado, e por isso ele está bloqueado.
-Lucas tem que finalizar para Augusto ser desbloqueado.
+- O aluguel que Augusto fez da régua de Lucas venceu (mas ainda nao foi identificado pela task do celery! ou seja, status = CONFIRMED) e não foi finalizado. Augusto será bloqueado e aí Lucas terá que finalizar o aluguel para desbloqueá-lo.
 
 #### Cancelamento de pedidos de um item quando ele é alugado
 - Augusto aceita um dos pedidos para Calculadora HP12C. O outro pedido é automaticamente cancelado.
@@ -52,7 +51,3 @@ Lucas tem que finalizar para Augusto ser desbloqueado.
 - 2: Fabricio sobre aluguel 1
 - 3: Vicente sobre o aluguel 2
 - 4: Augusto sobre o aluguel 2
--
--
--
--
