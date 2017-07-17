@@ -1,9 +1,11 @@
 # engsw
 
 ### Installing
-Setup virtualenv with python3: ```virtualenv -p python3  env```
+1. Setup virtualenv with python3: ```virtualenv -p python3  env```
 
-Install dependencies: ```pip install -r requirements.txt```
+2. Activate virtualvenv: ```source ./env/bin/activate```
+
+3. Install dependencies: ```pip install -r requirements.txt```
 
 ### Running
 1. Activate virtualvenv: ```source ./env/bin/activate```
