@@ -1,11 +1,12 @@
 # engsw
 
 ### Installing
-Setup virtualenv: ```virtualenv engsw```
+Setup virtualenv: ```virtualenv env```
+
 Install dependencies: ```pip install -r requirements.txt``` (or pip3)
 
 ### Running
-1. Activate virtualvenv: ```source ./bin/activate```
+1. Activate virtualvenv: ```source ./env/bin/activate```
 
 1. Both celery commands must run in separate terminals at same time:
 	- Run celery-worker: ```celery -A engsw worker -l info```
